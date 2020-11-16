@@ -4,6 +4,17 @@ import chardet
 import requests
 import argparse
 
+def logo():
+    print("\n")
+    print("           _____ ____    __         __________  __  _______  ___   _____")
+    print("          / ___// __ \  / /        / ____/ __ \/  |/  / __ \/   | / ___/")
+    print("          \__ \/ / / / / /  ______/ /   / / / / /|_/ / /_/ / /| | \__ \\")
+    print("         ___/ / /_/ / / /__/_____/ /___/ /_/ / /  / / ____/ ___ |___/ /")
+    print("        /____/\___\_\/_____/     \____/\____/_/  /_/_/   /_/  |_/____/")
+    print ("                     SQL Injection Automation Tool V.0.01")
+    print ("                          by KSJ 5th /Team Dragon Compass\n\n\n") 
+    
+
 
 def makeOrderBy(num):
     return " order by "+str(num)+"#"
@@ -17,21 +28,12 @@ if __name__=="__main__":
     parser.add_argument('-s', help="input_string", nargs='+', required=False)
 
 
-    print("\n")
-    print("           _____ ____    __         __________  __  _______  ___   _____")
-    print("          / ___// __ \  / /        / ____/ __ \/  |/  / __ \/   | / ___/")
-    print("          \__ \/ / / / / /  ______/ /   / / / / /|_/ / /_/ / /| | \__ \\")
-    print("         ___/ / /_/ / / /__/_____/ /___/ /_/ / /  / / ____/ ___ |___/ /")
-    print("        /____/\___\_\/_____/     \____/\____/_/  /_/_/   /_/  |_/____/")
-    print ("                     SQL Injection Automation Tool V.0.01")
-    print ("                          by KSJ 5th /Team Dragon Compass\n\n\n") 
-    
     baseurl1 = "http://mentoring.ton80.net/"
 
     # baseurl1 = "http://pingu6615.phps.kr/ksj/"
 
     page1 = cr.getinfo(baseurl1)
-    page1.showdata()    
+    # page1.showdata()    
     # qc.checkVOper(page1.hreflist[0])
 
     for s in page1.hreflist:

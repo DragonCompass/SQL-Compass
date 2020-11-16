@@ -13,7 +13,9 @@ def makeResult():
     data['alistlen'] = slistlen+len(vlist)
     data['vlistlen'] = len(vlist)
     data['vlist'] = vlist
-    return json.dumps(data,ensure_ascii=False,indent="\t")
+    res = json.dumps(data,ensure_ascii=False)
+    # res = res.replace("\n",'')
+    return res
 
 def getJSON(href,fname,query,war):
     data = OrderedDict()
@@ -21,7 +23,7 @@ def getJSON(href,fname,query,war):
     data["fname"] = fname
     data["query"] = query
     data["war"] = war
-    return json.dumps(data,ensure_ascii=False,indent="\t")
+    return json.dumps(data,ensure_ascii=False)
 
 def checkVOper(href): #check operater is worked in query
     global slistlen

@@ -47,7 +47,7 @@ def checkSQLi2(href): #find SQL injection
 def checkSQLi(href): #find SQL injection
     global slistlen
     #for q in aQlist : 
-    q = " or 1=1#"
+    q = " or 1=1"
     retlist = checkNormal(href,q)
     reslist = []
 
@@ -87,8 +87,6 @@ def checkNormal(href,q):
             pass
         else :  #this result is normal 
             if checkError(res) : 
-                print(res)
-                print("inject")
                 retlist.append(res)
     return retlist
         
@@ -117,6 +115,7 @@ def makeAnormal(href) : #find anormal result
         nl.append(s[2])
     for s in an:
         nl.remove(s[2])   
+
     return an[0],nl
 
 def checkResSame(res1,res2): #check res1 and res2 request result is same
@@ -139,13 +138,8 @@ def checkResSame(res1,res2): #check res1 and res2 request result is same
     res2_ = res2[0].replace(q2,'')
 
     res = cr.show_diff(res1_,res2_)
-    # for s in res[1]:
-    #     print(s)
+    
     for s in res[1] : #s is differ parts
-        # print("s: " + s)
-        # print("q1: " + q1)
-        # print("q2: " + q2)
-        # print("q3: " + q3)
         if ((q1 != s ) and (q2 != s )  and (q3 != s )) : # two results are not same 
             return False
     # two results are same 

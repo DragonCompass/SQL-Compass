@@ -17,8 +17,8 @@ def setvlist():
     tmp = []
     warlist = []
     warval = []
-    print(type(vlist[0]))
-    print(type(vdict[0]))
+    # print(type(vlist[0]))
+    # print(type(vdict[0]))
     #for idx, i in enumerate(vlist):
     #    urllist.append(str(i.split('"fname')[0]))
     
@@ -30,18 +30,18 @@ def setvlist():
 
     for idx, i in enumerate(tmp):
         for edx, j in enumerate(warlist):
-            print("i[%d] = " %(idx) ,i[0])
-            print("j[%d] = " %(edx) ,j[0])
+            # print("i[%d] = " %(idx) ,i[0])
+            # print("j[%d] = " %(edx) ,j[0])
             if i[0] == j[0]:
-                print("중복확인")
+                # print("중복확인")
                 break
             elif edx+1 == len(warlist):
-                print("추가")
-                print(i)
+                # print("추가")
+                # print(i)
                 warlist.append(i)
 
-            print("edx :",edx) 
-            print("len(j) :",len(warlist)) 
+            # print("edx :",edx) 
+            # print("len(j) :",len(warlist)) 
             
     for i in warlist:
         warval.append(i[1])
@@ -51,13 +51,13 @@ def setvlist():
 
 
     #확인용
-    print("------------------")
-    for i in warlist:
-        print(i)
-    for i in warval:
-        print(i)
-    print("------------------")
-    print("총 %d개 페이지 취약점 high %d low %d" % (len(warval), high, low))
+    # print("------------------")
+    # for i in warlist:
+    #     print(i)
+    # for i in warval:
+    #     print(i)
+    # print("------------------")
+    # print("총 %d개 페이지 취약점 high %d low %d" % (len(warval), high, low))
 
     return len(warval), high, low 
 
@@ -76,12 +76,14 @@ def makeResult():
     data['alistlen'] = slistlen+len(vlist)
 
     # 취약한 페이지 수, high, low 
-    data['vlistlen'], data['high'], data['low']  = setvlist()
+    data['vpagelen'], data['high'], data['low']  = setvlist()
 
     # 발견 페이지(페이지 URL, 파라미터 이름, 공격 쿼리, 위험도
+    data['vlistlen'] = len(vlist)
     data['vlist'] = vlist
+    
 
-    setwarval()
+    # setwarval()
     res = json.dumps(data,ensure_ascii=False,indent="\t")
     res = res.replace("\n",'')
     return res

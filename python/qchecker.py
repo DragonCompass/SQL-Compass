@@ -13,7 +13,7 @@ def makeResult():
     data['alistlen'] = slistlen+len(vlist)
     data['vlistlen'] = len(vlist)
     data['vlist'] = vlist
-    res = json.dumps(data,ensure_ascii=False)
+    res = json.dumps(data,ensure_ascii=False,indent="\t")
     res = res.replace("\n",'')
     return res
 
@@ -23,7 +23,26 @@ def getJSON(href,fname,query,war):
     data["fname"] = fname
     data["query"] = query
     data["war"] = war
-    return json.dumps(data,ensure_ascii=False)
+    return json.dumps(data,ensure_ascii=False,indent="\t")
+
+def checkSQLi2(href): #find SQL injection
+    global slistlen
+    for q in aQlist.qlist : 
+        retlist = checkNormal(href,q)
+        reslist = []
+
+        for s in href.arglist : 
+            for i in retlist : 
+                for j in retlist : 
+                    if i!=j : 
+                        if checkResSame(i,j):
+                            reslist.append(i)
+                            reslist.append(j)
+            reslist = list(set(reslist))
+            if len(reslist) >= 2 : 
+                vlist.append(getJSON(href,s.name,q,"high"))
+            else :  
+                slistlen += 1
 
 def checkSQLi(href): #find SQL injection
     global slistlen
@@ -44,7 +63,6 @@ def checkSQLi(href): #find SQL injection
             vlist.append(getJSON(href,s.name,q,"high"))
         else :  
             slistlen += 1
-            # print("SQL injection Occured!")
 
 def checkVOper(href): #check operater is worked in query
     global slistlen

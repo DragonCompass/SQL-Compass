@@ -41,7 +41,7 @@ if __name__=="__main__":
     # qc.makeAnormal
     
     for s in page1.hreflist:
-        qc.checkSQLi(s)
+        qc.checkSQLi2(s)
     # qc.checkSQLi(page1.hreflist[0]," or 1=1")
 
     print(qc.makeResult())

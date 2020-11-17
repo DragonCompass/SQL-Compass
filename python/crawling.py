@@ -31,7 +31,6 @@ def getinfo(url) :
 # ----------------------- class declaration ------------------------ 
 # ------------------------------------------------------------------
 
-
 class pageset(): 
     def __init__ (self,url):
 
@@ -39,9 +38,7 @@ class pageset():
         self.soup,self.url = getsoup(url)         
 
         # getform함수를 통해 formset object list들을 flist에 저장한다. 
-        self.flist = getform(self.soup)
-
-        
+        self.flist = getform(self.soup)        
         self.hreflist = getlinks(self.soup,self.url)
         
     def showdata(self): #make pageinfo

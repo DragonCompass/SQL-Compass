@@ -84,7 +84,7 @@ def makeResult():
     
 
     # setwarval()
-    res = json.dumps(data,ensure_ascii=False,indent="\t")
+    res = json.dumps(data,ensure_ascii=False)
     res = res.replace("\n",'')
     return res
 
@@ -94,7 +94,7 @@ def getJSON(href,fname,query,war):
     data["fname"] = fname
     data["query"] = query
     data["war"] = war
-    return json.dumps(data,ensure_ascii=False,indent="\t")
+    return json.dumps(data,ensure_ascii=False)
 
 # aQlist(SQL Cheat list) 주입 하여 high(고위험)페이지 판별
 def checkSQLi2(href): #find SQL injection

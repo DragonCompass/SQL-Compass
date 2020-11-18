@@ -38,11 +38,10 @@ if __name__=="__main__":
 
     for s in page1.hreflist:
         qc.checkVOper(s)
-    # qc.makeAnormal
-    
-    # for s in page1.hreflist:
-    #     qc.checkSQLi2(s)
-    qc.checkSQLi2(page1.hreflist[0])
+        
+    for s in page1.hreflist:
+        qc.checkSQLi2(s)
+    # qc.checkSQLi2(page1.hreflist[6])
 
     print(qc.makeResult())
 

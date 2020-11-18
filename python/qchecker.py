@@ -111,6 +111,7 @@ def checkSQLi2(href): #find SQL injection
                             reslist.append(i)
                             reslist.append(j)
             reslist = list(set(reslist))
+            # print(reslist)
             if len(reslist) >= 2 : 
                 vlist.append(getJSON(href,s.name,q,"high"))
                 vdict.append({"url" : href.baseurl + href.url, "fname":s.name, "query":q, "war":"high"})

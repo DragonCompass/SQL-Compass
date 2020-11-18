@@ -33,3 +33,10 @@ var myPieChart = new Chart(ctx, {
     cutoutPercentage: 80,
   },
 });
+
+function updatePieGraph() {
+  myPieChart.data.datasets[0].data=pieData;
+  myPieChart.update();
+}
+
+updatePieGraph();

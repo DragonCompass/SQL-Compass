@@ -27,6 +27,12 @@ function number_format(number, decimals, dec_point, thousands_sep) {
   return s.join(dec);
 }
 
+function updateBarGraph() {
+  myBarChart.data.datasets[0].data=data1;
+  myBarChart.data.datasets[1].data=data2;
+  myBarChart.update();
+}
+
 // Bar Chart Example
 var ctx = document.getElementById("myBarChart");
 var myBarChart = new Chart(ctx, {
@@ -38,7 +44,12 @@ var myBarChart = new Chart(ctx, {
       backgroundColor: "#4e73df",
       hoverBackgroundColor: "#2e59d9",
       borderColor: "#4e73df",
+      maxBarThickness: 25,
       data: [4215, 5312, 6251, 7841, 9821, 14984],
+    },{
+      backgroundColor: '#4fffff',
+      maxBarThickness: 25,
+      data: [3024,3502,1430,6045,23145,3135]
     }],
   },
   options: {
@@ -62,8 +73,8 @@ var myBarChart = new Chart(ctx, {
         },
         ticks: {
           maxTicksLimit: 6
-        },
-        maxBarThickness: 25,
+        }
+        //maxBarThickness: 25,
       }],
       yAxes: [{
         ticks: {
@@ -109,3 +120,5 @@ var myBarChart = new Chart(ctx, {
     },
   }
 });
+
+updateBarGraph(1000,7006);

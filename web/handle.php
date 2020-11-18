@@ -1,10 +1,8 @@
 <?php
     #exec("python python/tool.py",$str);
     #exec("cd /var/www/html/KSJ_SQLI_Project/python/dist && ./tool", );
-    exec("cd /python/dist && ./tool",$str);
-    
-echo json_encode($str);
-    $result = json_decode($str,true);
+    exec("cd /var/www/html/python/dist && ./tool",$str);
+    $result = json_decode($str[0],true);
     $check_page_num=$result['alistlen'];
     $vul_page_num=$result['vpagelen'];
     $page_ratio=$vul_page_num/$check_page_num*100;
@@ -26,6 +24,17 @@ echo json_encode($str);
     #$tableData=[{'url':'a','form':'b','query':'c'},{'url':'a','form':'b','query':'c'},{'url':'a','form':'b','query':'c'}
     #,{'url':'a','form':'b','query':'c'},{'url':'a','form':'b','query':'c'},{'url':'a','form':'b','query':'c'}];
     $tableData = [['a','b','c'],['a','b','c'],['a','b','c']];
+    $tableData=Array();
+    foreach ($result['vlist'] as $tmp){
+            $vlist = json_decode($tmp,true);
+            array_push($tableData,
+                    array(
+                            $vlist['url'],
+                            $vlist['fname'],
+                            $vlist['query'],
+                    )
+            );
+    } 
 
 
     $datav=10203;

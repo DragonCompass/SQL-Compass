@@ -26,9 +26,12 @@ if __name__=="__main__":
     parser.add_argument('-t', help="dept", required=False)
     parser.add_argument('-m', help="Mode", required=False)
     parser.add_argument('-s', help="input_string", nargs='+', required=False)
+    args = parser.parse_args()
 
 
     baseurl1 = "http://mentoring.ton80.net/"
+    if args.u:
+        baseurl1 = args.u
 
     # baseurl1 = "http://pingu6615.phps.kr/ksj/"
 

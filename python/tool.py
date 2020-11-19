@@ -22,16 +22,15 @@ def makeOrderBy(num):
 if __name__=="__main__":
 
     parser = argparse.ArgumentParser(description= "Echo client -p port -i host -s string")
-    parser.add_argument('-u', help="URL", required=False)
+    parser.add_argument('-u', help="URL", required=True)
     parser.add_argument('-t', help="dept", required=False)
     parser.add_argument('-m', help="Mode", required=False)
     parser.add_argument('-s', help="input_string", nargs='+', required=False)
     args = parser.parse_args()
 
 
-    baseurl1 = "http://mentoring.ton80.net/"
-    if args.u:
-        baseurl1 = args.u
+    #baseurl1 = "http://mentoring.ton80.net/"
+    baseurl1 = args.u
 
     # baseurl1 = "http://pingu6615.phps.kr/ksj/"
 

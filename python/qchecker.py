@@ -54,8 +54,6 @@ def setwardict(vdict):
                 #print("insert")
                 wardict.append(i)
                 break
-            else:
-                print("pass")
 
     # wardict에서 warval(low or high) 추출
     for i in wardict:

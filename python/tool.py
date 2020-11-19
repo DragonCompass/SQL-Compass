@@ -28,7 +28,7 @@ if __name__=="__main__":
     parser.add_argument('-s', help="input_string", nargs='+', required=False)
     args = parser.parse_args()
 
-
+    # baseurl1 = "http://compass.ton80.net/test/gnu5/bbs/board.php?bo_table=free&wr_id=5"
     baseurl1 = "http://mentoring.ton80.net/"
     if args.u:
         baseurl1 = args.u
@@ -38,13 +38,12 @@ if __name__=="__main__":
     page1 = cr.getinfo(baseurl1)
     # page1.showdata()    
     # qc.checkVOper(page1.hreflist[0])
-
     for s in page1.hreflist:
         qc.checkVOper(s)
         
     for s in page1.hreflist:
         qc.checkSQLi2(s)
-    # qc.checkSQLi2(page1.hreflist[6])
+    # qc.checkSQLi2(page1.hreflist[0])
 
     print(qc.makeResult())
 

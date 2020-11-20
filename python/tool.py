@@ -36,16 +36,16 @@ if __name__=="__main__":
     # baseurl1 = "http://pingu6615.phps.kr/ksj/"
 
     page1 = cr.getinfo(baseurl1)
-    # page1.showdata()    
+    page1.showdata()    
     # qc.checkVOper(page1.hreflist[0])
     for s in page1.hreflist:
         qc.checkVOper(s)
         
-    for s in page1.hreflist:
-        qc.checkSQLi2(s)
-    # qc.checkSQLi2(page1.hreflist[0])
+    # for s in page1.hreflist:
+    #     qc.checkSQLi2(s)
+    qc.checkSQLi2(page1.hreflist[0])
 
-    print(qc.makeResult())
+    print(qc.makeResult(page1))
 
     # i = page1.hreflist[0]
     # for q in qlist :

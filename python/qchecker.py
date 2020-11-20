@@ -28,85 +28,6 @@ def showlistinfo(vdict, wardict, slist, vlist):
         print(i)
 
 
-
-# vlist를 이용해서 wardict, warval을 생성해서 리턴
-def setwardict(vdict):
-    wardict = []
-    warval = []
-
-    data = OrderedDict()
-    tmp = []
-    # print(type(vlist[0]))
-    # print(type(vdict[0]))
-    
-    for i in vdict:
-        tmp.append([str(i["url"]), str(i["war"])])
-
-    tmp = list(reversed(tmp))
-    wardict = [tmp[0]]
-
-    for idx, i in enumerate(tmp):
-        for edx, j in enumerate(wardict):
-            if i[0] == j[0]:
-                #print("중복확인")
-                break
-            elif edx+1 == len(wardict):
-                #print("insert")
-                wardict.append(i)
-                break
-            else:
-                pass
-                # print("pass")
-
-    # wardict에서 warval(low or high) 추출
-    for i in wardict:
-        warval.append(i[1])
-
-    high = warval.count("high")
-    low = warval.count("low")
-
-    return wardict, warval
-
-
-
-
-# slist에는 low 취약점이 존재하지않는 사이트리스트가 있고 wardict안에 중복되는 주소를 삭제
-# 해서 low, high에 모두 안전한 사이트를 저장함
-def setslist(wardict):
-    global slist
-
-    for i in wardict:
-        if i[0] in slist:
-            slist.remove(i[0])
-
-# slist를 json dump로 변경해서 리턴
-def getslistJSON(slist):
-    sjson = []
-
-    data = OrderedDict()
-    for i in slist:
-        data["url"] = i
-        sjson.append(json.dumps(data, ensure_ascii = False, indent = "\t"))
-
-    return sjson
-
-
-# wardict 를 json dump로 변경해서 리턴
-def getwardictJSON(wardict):
-    warlist = []
-    data = OrderedDict()
-    alen = int(len(wardict))
-
-    for i in wardict:
-        data["url"] = i[0]
-        data["war"] = i[1]
-        warlist.append(json.dumps(data, ensure_ascii = False, indent = "\t"))
-            
-    return warlist
-
-
-
-
 #- 검사한 페이지 수(O)
 #- 취약점이 발견된 페이지 수(json에서 처리하기로 했었음)(O)
 #- 총 취약점 개수(O)
@@ -124,23 +45,6 @@ def makeResult(page):
     data['low'] = 0
     data['high'] = 0
     vpage = []
-    # data['alistlen'] = len(wardict) + len(slist)
-
-    # data['vpagelen'] = len(wardict)
-    # data['high'] = warval.count("high") 
-    # data['low']  = warval.count("low")
-
-    # data['vlistlen'] = len(vlist)
-    # data['vlist'] = vlist
-
-    # data['slistlen'] = len(slist)
-    # data['slist'] = getslistJSON(slist)
-
-    # data['warlistlen'] = len(wardict)
-    # data['warlist'] = getwardictJSON(wardict)
-
-    # res = json.dumps(data,ensure_ascii=False,indent="\t")
-    # res = res.replace("\n",'')
 
     for h in page.hreflist : 
         tmp = OrderedDict()
@@ -150,7 +54,7 @@ def makeResult(page):
         tmp['low'] = []
         if (h.vul) != "safe" : 
             data['vpagelen'] += 1 
-            print(h.url)
+            # print(h.url)
             for a in h.arglist: 
                 data['aparlen'] += 1
                 if a.vul != "safe" : 
@@ -172,7 +76,7 @@ def makeResult(page):
         vpage.append(json.dumps(tmp,ensure_ascii=False,indent="\t"))
 
     data['apagelen'] = data['spagelen'] + data['vpagelen'] 
-    data['sparlen'] = data['aparlen'] + data['vparlen'] 
+    data['sparlen'] = data['aparlen'] - data['vparlen'] 
     data['vlist'] = vlist
     data['vpage'] = vpage
     
@@ -244,7 +148,9 @@ def checkSQLi(href): #find SQL injection
 
 def checkVOper(href): #check operater is worked in query
     global slistlen
+    count = 0
     for s in href.arglist :
+        count += 1
         if(s.atype == "digit"):
             cq = str(( int(s.oval)+1)) + '-1'
             res1 = href.classmember(s.oval)
@@ -259,6 +165,8 @@ def checkVOper(href): #check operater is worked in query
                 # slist에 안전한 사이트들을 저장
                 slist.append(str(href.baseurl + href.url))
                 slistlen += 1
+    # href.getdata()
+    print(count)
 
 def checkNormal(href,q):
     an,nl = makeAnormal(href)

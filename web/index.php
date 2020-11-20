@@ -25,6 +25,7 @@
     <body>
         <div class="s003">
         <form>
+            <img src="img/logo_ver3png.png" alt="" width="300" class="img-responsive"></p>
             <div class="inner-form">
                 <div class="input-field first-wrap">
                     <div class="input-select">

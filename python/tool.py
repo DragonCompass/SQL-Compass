@@ -26,24 +26,26 @@ if __name__=="__main__":
     parser.add_argument('-t', help="dept", required=False)
     parser.add_argument('-m', help="Mode", required=False)
     parser.add_argument('-s', help="input_string", nargs='+', required=False)
+    args = parser.parse_args()
 
-
+    # baseurl1 = "http://compass.ton80.net/test/gnu5/bbs/board.php?bo_table=free&wr_id=5"
     baseurl1 = "http://mentoring.ton80.net/"
+    if args.u:
+        baseurl1 = args.u
 
     # baseurl1 = "http://pingu6615.phps.kr/ksj/"
 
     page1 = cr.getinfo(baseurl1)
-    # page1.showdata()    
+    page1.showdata()    
     # qc.checkVOper(page1.hreflist[0])
-
     for s in page1.hreflist:
         qc.checkVOper(s)
         
-    for s in page1.hreflist:
-        qc.checkSQLi2(s)
-    # qc.checkSQLi2(page1.hreflist[6])
+    # for s in page1.hreflist:
+    #     qc.checkSQLi2(s)
+    qc.checkSQLi2(page1.hreflist[0])
 
-    print(qc.makeResult())
+    print(qc.makeResult(page1))
 
     # i = page1.hreflist[0]
     # for q in qlist :

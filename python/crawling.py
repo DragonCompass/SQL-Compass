@@ -131,7 +131,8 @@ class hrefset(): #sub href link dataset object
         self.formlist = []
         self.arglist = []
         self.Actionurl = ""
-        self.method="GET"        
+        self.method="GET"     
+        self.vul = "safe"   
     
     def showdata(self):
         print ("----- href page info -----")
@@ -200,6 +201,7 @@ class argset():
         self.oval = oval
         self.name = name        
         self.url = url
+        self.vul = "safe"
 
     def showdata(self) :
         print ("args name : "+ self.name + " | args type : " + self.atype )

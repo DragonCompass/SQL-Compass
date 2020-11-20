@@ -55,6 +55,7 @@ def setwardict(vdict):
                 wardict.append(i)
                 break
             else:
+                pass
                 # print("pass")
 
     # wardict에서 warval(low or high) 추출
@@ -114,51 +115,79 @@ def getwardictJSON(wardict):
 #- 각 페이지 별 공격가능한 폼 개수 & 취약점 발견된 폼 개수(막대그래프)
 #- 각 페이지이름, 취약점 발견된 폼 이름, 공격 쿼리(테이블), 위험도(O)
 
-def makeResult():
-
+def makeResult(page):
     data = OrderedDict()
+    data['spagelen'] = 0
+    data['vpagelen'] = 0
+    data['aparlen'] = 0
+    data['vparlen'] = 0
+    data['low'] = 0
+    data['high'] = 0
+    vpage = []
+    # data['alistlen'] = len(wardict) + len(slist)
 
-    wardict = [] # vdict에서 url, war키값만 추출하여 각 주소의 중복을 제거한 이중 리스트
-    warval = [] # wardict에서 war키값만 추출한 리스트
-    wardict, warval = setwardict(vdict)# vdict 를 이용해서 wardict, warvar를 초기화 한다.
+    # data['vpagelen'] = len(wardict)
+    # data['high'] = warval.count("high") 
+    # data['low']  = warval.count("low")
 
-    # slist를 wardict를 참조하여 중복을 제거   
-    setslist(wardict)
+    # data['vlistlen'] = len(vlist)
+    # data['vlist'] = vlist
 
-    # 검사한 페이지 수 //slistlen(안전한 페이지) + len(vlist) (취약한 페이지)
-    data['alistlen'] = len(wardict) + len(slist)
+    # data['slistlen'] = len(slist)
+    # data['slist'] = getslistJSON(slist)
 
-    # 취약한 페이지 수, high, low 
-    data['vpagelen'] = len(wardict)
-    data['high'] = warval.count("high") 
-    data['low']  = warval.count("low")
+    # data['warlistlen'] = len(wardict)
+    # data['warlist'] = getwardictJSON(wardict)
 
+    # res = json.dumps(data,ensure_ascii=False,indent="\t")
+    # res = res.replace("\n",'')
 
-    # vlist = 발견 페이지(페이지 URL, 파라미터 이름, 공격 쿼리, 위험도)
-    data['vlistlen'] = len(vlist)
+    for h in page.hreflist : 
+        tmp = OrderedDict()
+        tmp['url'] = h.url
+        tmp['safe'] = []
+        tmp['high'] = []
+        tmp['low'] = []
+        if (h.vul) != "safe" : 
+            data['vpagelen'] += 1 
+            print(h.url)
+            for a in h.arglist: 
+                data['aparlen'] += 1
+                if a.vul != "safe" : 
+                    data['vparlen'] += 1
+                    if a.vul == "high" : 
+                        tmp['high'].append(a.name)
+                        data['high'] += 1
+                    else :
+                        tmp['low'].append(a.name)
+                        data['low'] += 1
+                else : 
+                    tmp['safe'].append(a.name)
+        else : 
+            for a in h.arglist: 
+                data['aparlen'] += 1
+                tmp['safe'].append(a.name)
+            data['spagelen'] += 1  
+            
+        vpage.append(json.dumps(tmp,ensure_ascii=False,indent="\t"))
+
+    data['apagelen'] = data['spagelen'] + data['vpagelen'] 
+    data['sparlen'] = data['aparlen'] + data['vparlen'] 
     data['vlist'] = vlist
-
-    # makeslist = 일반 리스트인 slist를 json dump로 변경하여 반환
-    data['slistlen'] = len(slist)
-    data['slist'] = getslistJSON(slist)
-
-    # makeslist = 일반 딕셔너리인 wardict를 json dump로 변경하여 반환
-    data['warlistlen'] = len(wardict)
-    data['warlist'] = getwardictJSON(wardict)
-
-    #디버깅용
-    #showlistinfo(vdict, getwardictJSON(wardict), getslistJSON(slist), vlist)
-
+    data['vpage'] = vpage
+    
     res = json.dumps(data,ensure_ascii=False,indent="\t")
-    res = res.replace("\n",'')
+    # print(data)
+    # print(vlist)
     return res
 
-def getJSON(href,fname,query,war):
+def getJSON(href,fname,query,war,method):
     data = OrderedDict()
     data["url"] = href.baseurl + href.url
     data["fname"] = fname
     data["query"] = query
     data["war"] = war
+    data['method'] = method
     return json.dumps(data,ensure_ascii=False,indent="\t")
 
 # aQlist(SQL Cheat list) 주입 하여 high(고위험)페이지 판별
@@ -180,8 +209,11 @@ def checkSQLi2(href): #find SQL injection
 
 
             if len(reslist) >= 2 : 
-                vlist.append(getJSON(href,s.name,q,"high"))
-                vdict.append({"url" : href.baseurl + href.url, "fname":s.name, "query":q, "war":"high"})
+                s.vul = "high"
+                href.vul = "high" 
+                vlist.append(getJSON(href,s.name,q,"high",href.method))
+                #vlist.append(getJSON(href,s.name,q,"high"))
+                #vdict.append({"url" : href.baseurl + href.url, "fname":s.name, "query":q, "war":"high"})
             else :  
                 slistlen += 1
 
@@ -201,13 +233,11 @@ def checkSQLi(href): #find SQL injection
                         reslist.append(j)
         reslist = list(set(reslist))
         if len(reslist) >= 2 : 
-            vlist.append(getJSON(href,s.name,q,"high"))
-            vdict.append({"url" : href.baseurl + href.url, "fname":s.name, "query":q, "war":"high"})
+            pass
+            #vlist.append(getJSON(href,s.name,q,"high"))
+            #vdict.append({"url" : href.baseurl + href.url, "fname":s.name, "query":q, "war":"high"})
         else :  
             slistlen += 1
-
-
-
 
 # 쿼리내에서 operater(연산자) 동작을 확인하여 low(저위험)페이지 판별
 # href = hreflist, get method의 argument 에 1(base val)과 2(base val +1) -1 을 진행.
@@ -220,12 +250,13 @@ def checkVOper(href): #check operater is worked in query
             res1 = href.classmember(s.oval)
             res2 = href.classmember(cq)    
             # res1, res2의 결과값이 같다면 operator 동작으로 low 취약점 리스트에 세팅.
-            if checkResSame(res1,res2) : 
-                vlist.append(getJSON(href,s.name,cq,"low"))
-                vdict.append({"url" : href.baseurl + href.url, "fname":s.name, "query":cq,
-                    "war":"low"})
+            if checkResSame(res1,res2) :
+                s.vul = "low"
+                href.vul = "low" 
+                vlist.append(getJSON(href,s.name,cq,"low",href.method))
+                #vdict.append({"url" : href.baseurl + href.url, "fname":s.name, "query":cq,"war":"low"})
             else : 
-                # slist에 low취약점에 안전한 사이트들을 저장
+                # slist에 안전한 사이트들을 저장
                 slist.append(str(href.baseurl + href.url))
                 slistlen += 1
 

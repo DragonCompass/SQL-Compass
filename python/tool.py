@@ -49,6 +49,7 @@ def makePageClass(baseurl):
 
     qc.vlist = vlist
     print(qc.makeResult(page1))
+    
     # return page1
         
 

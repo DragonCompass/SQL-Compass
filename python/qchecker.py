@@ -97,6 +97,7 @@ def getJSON(href,fname,query,war,method):
 # aQlist(SQL Cheat list) 주입 하여 high(고위험)페이지 판별
 def checkSQLi2(href): #find SQL injection
     global slistlen
+    
     for q in aQlist.qlist : 
         retlist = checkNormal(href,q)
         reslist = []
@@ -120,6 +121,7 @@ def checkSQLi2(href): #find SQL injection
                 #vdict.append({"url" : href.baseurl + href.url, "fname":s.name, "query":q, "war":"high"})
             else :  
                 slistlen += 1
+    print(len(href.arglist))
 
 def checkSQLi(href): #find SQL injection
     global slistlen

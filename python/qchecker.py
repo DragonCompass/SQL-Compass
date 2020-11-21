@@ -66,7 +66,7 @@ def getJSON(href,fname,query,war,method):
     data["war"] = war
     data['method'] = method
     return json.dumps(data,ensure_ascii=False,indent="\t")
-
+ 
 # aQlist(SQL Cheat list) 주입 하여 high(고위험)페이지 판별
 def checkSQLi(href): #find SQL injection
     global slistlen
@@ -136,7 +136,7 @@ def checkNormal(href,q):
     return retlist
         
 def makeAnormal(href) : #find anormal result
-    qlist = ['1','2','3','4','5','a','b','c','d','-1','a1','1a']
+    qlist = ['1','2','3','4','5','a','b','c','d','-1','-2','-3','a1','1a','aa1','11a','1a1','a11']
     neq = [] #non-error querys 
     an = [] #anormally returns
     nl = [] #normal querys    

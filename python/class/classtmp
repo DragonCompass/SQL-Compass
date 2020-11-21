@@ -1,20 +1,13 @@
 {
-	"URL": "mentoring.ton80.net/",
+	"URL": "compass.ton80.net/test/part3/index.php",
 	"flist": [],
 	"hreflist": [
-		"{\n\t\"url\": \"sql1.php\",\n\t\"method\": \"GET\",\n\t\"vul\": \"safe\",\n\t\"flist\": [],\n\t\"alist\": [\n\t\t\"{\\n\\t\\\"name\\\": \\\"i\\\",\\n\\t\\\"atype\\\": \\\"digit\\\",\\n\\t\\\"oval\\\": \\\"1\\\",\\n\\t\\\"vul\\\": \\\"safe\\\"\\n}\"\n\t]\n}",
-		"{\n\t\"url\": \"sql2.php\",\n\t\"method\": \"GET\",\n\t\"vul\": \"safe\",\n\t\"flist\": [],\n\t\"alist\": [\n\t\t\"{\\n\\t\\\"name\\\": \\\"i\\\",\\n\\t\\\"atype\\\": \\\"digit\\\",\\n\\t\\\"oval\\\": \\\"1\\\",\\n\\t\\\"vul\\\": \\\"safe\\\"\\n}\"\n\t]\n}",
-		"{\n\t\"url\": \"sql3.php\",\n\t\"method\": \"GET\",\n\t\"vul\": \"safe\",\n\t\"flist\": [],\n\t\"alist\": [\n\t\t\"{\\n\\t\\\"name\\\": \\\"i\\\",\\n\\t\\\"atype\\\": \\\"digit\\\",\\n\\t\\\"oval\\\": \\\"1\\\",\\n\\t\\\"vul\\\": \\\"safe\\\"\\n}\"\n\t]\n}",
-		"{\n\t\"url\": \"sql4.php\",\n\t\"method\": \"GET\",\n\t\"vul\": \"safe\",\n\t\"flist\": [],\n\t\"alist\": [\n\t\t\"{\\n\\t\\\"name\\\": \\\"i\\\",\\n\\t\\\"atype\\\": \\\"digit\\\",\\n\\t\\\"oval\\\": \\\"1\\\",\\n\\t\\\"vul\\\": \\\"safe\\\"\\n}\"\n\t]\n}",
-		"{\n\t\"url\": \"sql5.php\",\n\t\"method\": \"GET\",\n\t\"vul\": \"safe\",\n\t\"flist\": [],\n\t\"alist\": [\n\t\t\"{\\n\\t\\\"name\\\": \\\"i\\\",\\n\\t\\\"atype\\\": \\\"digit\\\",\\n\\t\\\"oval\\\": \\\"1\\\",\\n\\t\\\"vul\\\": \\\"safe\\\"\\n}\"\n\t]\n}",
-		"{\n\t\"url\": \"sql6.php\",\n\t\"method\": \"GET\",\n\t\"vul\": \"safe\",\n\t\"flist\": [],\n\t\"alist\": [\n\t\t\"{\\n\\t\\\"name\\\": \\\"i\\\",\\n\\t\\\"atype\\\": \\\"digit\\\",\\n\\t\\\"oval\\\": \\\"1\\\",\\n\\t\\\"vul\\\": \\\"safe\\\"\\n}\"\n\t]\n}",
-		"{\n\t\"url\": \"sql7.php\",\n\t\"method\": \"GET\",\n\t\"vul\": \"safe\",\n\t\"flist\": [],\n\t\"alist\": [\n\t\t\"{\\n\\t\\\"name\\\": \\\"i\\\",\\n\\t\\\"atype\\\": \\\"digit\\\",\\n\\t\\\"oval\\\": \\\"1\\\",\\n\\t\\\"vul\\\": \\\"safe\\\"\\n}\"\n\t]\n}",
-		"{\n\t\"url\": \"sql8.php\",\n\t\"method\": \"GET\",\n\t\"vul\": \"safe\",\n\t\"flist\": [],\n\t\"alist\": [\n\t\t\"{\\n\\t\\\"name\\\": \\\"i\\\",\\n\\t\\\"atype\\\": \\\"digit\\\",\\n\\t\\\"oval\\\": \\\"1\\\",\\n\\t\\\"vul\\\": \\\"safe\\\"\\n}\"\n\t]\n}",
-		"{\n\t\"url\": \"sql9.php\",\n\t\"method\": \"GET\",\n\t\"vul\": \"safe\",\n\t\"flist\": [],\n\t\"alist\": [\n\t\t\"{\\n\\t\\\"name\\\": \\\"i\\\",\\n\\t\\\"atype\\\": \\\"digit\\\",\\n\\t\\\"oval\\\": \\\"1\\\",\\n\\t\\\"vul\\\": \\\"safe\\\"\\n}\"\n\t]\n}",
-		"{\n\t\"url\": \"sql10.php\",\n\t\"method\": \"GET\",\n\t\"vul\": \"safe\",\n\t\"flist\": [],\n\t\"alist\": [\n\t\t\"{\\n\\t\\\"name\\\": \\\"i\\\",\\n\\t\\\"atype\\\": \\\"digit\\\",\\n\\t\\\"oval\\\": \\\"1\\\",\\n\\t\\\"vul\\\": \\\"safe\\\"\\n}\"\n\t]\n}",
-		"{\n\t\"url\": \"sql11.php\",\n\t\"method\": \"GET\",\n\t\"vul\": \"safe\",\n\t\"flist\": [],\n\t\"alist\": [\n\t\t\"{\\n\\t\\\"name\\\": \\\"i\\\",\\n\\t\\\"atype\\\": \\\"digit\\\",\\n\\t\\\"oval\\\": \\\"1\\\",\\n\\t\\\"vul\\\": \\\"safe\\\"\\n}\"\n\t]\n}",
-		"{\n\t\"url\": \"sql12.php\",\n\t\"method\": \"GET\",\n\t\"vul\": \"safe\",\n\t\"flist\": [],\n\t\"alist\": [\n\t\t\"{\\n\\t\\\"name\\\": \\\"i\\\",\\n\\t\\\"atype\\\": \\\"digit\\\",\\n\\t\\\"oval\\\": \\\"1\\\",\\n\\t\\\"vul\\\": \\\"safe\\\"\\n}\"\n\t]\n}",
-		"{\n\t\"url\": \"sql13.php\",\n\t\"method\": \"GET\",\n\t\"vul\": \"safe\",\n\t\"flist\": [],\n\t\"alist\": [\n\t\t\"{\\n\\t\\\"name\\\": \\\"i\\\",\\n\\t\\\"atype\\\": \\\"digit\\\",\\n\\t\\\"oval\\\": \\\"1\\\",\\n\\t\\\"vul\\\": \\\"safe\\\"\\n}\"\n\t]\n}"
+		"{\n\t\"url\": \"board_view.php\",\n\t\"method\": \"GET\",\n\t\"vul\": \"safe\",\n\t\"flist\": [],\n\t\"alist\": [\n\t\t\"{\\n\\t\\\"name\\\": \\\"num\\\",\\n\\t\\\"atype\\\": \\\"digit\\\",\\n\\t\\\"oval\\\": \\\"6\\\",\\n\\t\\\"vul\\\": \\\"safe\\\"\\n}\"\n\t]\n}",
+		"{\n\t\"url\": \"member_form.php\",\n\t\"method\": \"GET\",\n\t\"vul\": \"safe\",\n\t\"flist\": [],\n\t\"alist\": []\n}",
+		"{\n\t\"url\": \"index.php\",\n\t\"method\": \"GET\",\n\t\"vul\": \"safe\",\n\t\"flist\": [],\n\t\"alist\": []\n}",
+		"{\n\t\"url\": \"message_form.php\",\n\t\"method\": \"GET\",\n\t\"vul\": \"safe\",\n\t\"flist\": [],\n\t\"alist\": []\n}",
+		"{\n\t\"url\": \"login_form.php\",\n\t\"method\": \"GET\",\n\t\"vul\": \"safe\",\n\t\"flist\": [],\n\t\"alist\": []\n}",
+		"{\n\t\"url\": \"board_list.php\",\n\t\"method\": \"GET\",\n\t\"vul\": \"safe\",\n\t\"flist\": [],\n\t\"alist\": []\n}"
 	],
-	"pcount": 13
+	"pcount": 1
 }

@@ -74,6 +74,7 @@ def makeHrefClass(hdata,baseurl):
 
 def getClass(ltype):
     if ltype == "flist" : 
+        tmpfs = ""
         with open('class/classtmp') as json_file:
             data = json.load(json_file)
             # print(data)
@@ -111,9 +112,6 @@ def savecwl(url):
 
     return page1
 
-def makeOrderBy(num):
-    return " order by "+str(num)+"#"
-
 if __name__=="__main__":
 
     parser = argparse.ArgumentParser(description= "Echo client -p port -i host -s string")
@@ -139,7 +137,10 @@ if __name__=="__main__":
         if args.pl and args.pt : 
             idx = int(args.pi,10)
             res = getClass(args.pl)
-            if args.pt == "voper":
+            if len(res) == 0 :
+                print("empty")
+                exit()
+            if args.pt == "voper" :
                 qc.checkVOper(res[idx])
                 f= open("class/vlist","a+")
                 for s in qc.vlist :
@@ -151,7 +152,7 @@ if __name__=="__main__":
                 f.write(res[idx].getdata())
                 f.close()
             elif args.pt == "sqli":
-                qc.checkSQLi2(res[idx])
+                qc.checkSQLi(res[idx])
                 f= open("class/vlist","a+")
                 for s in qc.vlist :
                     tmps = json.dumps(s,ensure_ascii=False,indent="\t")+"\n"
@@ -165,15 +166,3 @@ if __name__=="__main__":
                 print("please set options correctly (-pt)")    
         else : 
             page1 = savecwl(baseurl1)
- 
-    # qc.checkVOper(page1.hreflist[0])
-    
-    # for s in page1.hreflist:
-    #     qc.checkVOper(s)
-        
-    # for s in page1.hreflist:
-    #     qc.checkSQLi2(s)
-    
-    # qc.checkSQLi2(page1.hreflist[0])
-
-    # print(qc.makeResult(page1))

@@ -9,33 +9,6 @@ vdict = [] # vlist 안의 값 타입이 dict가 아니라 참조가불가능해�
 slist = [] # secure, 안전한 사이트 리스트( append is (if warlist in clist))
 slistlen = 0
 
-# show list(list 출력, 디버깅용)
-def showlistinfo(vdict, wardict, slist, vlist):
-    print("총 검사 사이트")
-    for i in vdict:
-        print(i)
-
-    print("취약한 사이트 목록")
-    for i in wardict:
-        print(i)
-
-    print("안전한 사이트 목록")
-    for i in slist:
-        print(i)
-
-    print("vlist")
-    for i in vlist:
-        print(i)
-
-
-#- 검사한 페이지 수(O)
-#- 취약점이 발견된 페이지 수(json에서 처리하기로 했었음)(O)
-#- 총 취약점 개수(O)
-#- 고위험 취약점 개수(o)
-#- 저위험 취약점 개수(o)
-#- 각 페이지 별 공격가능한 폼 개수 & 취약점 발견된 폼 개수(막대그래프)
-#- 각 페이지이름, 취약점 발견된 폼 이름, 공격 쿼리(테이블), 위험도(O)
-
 def makeResult(page):
     data = OrderedDict()
     data['spagelen'] = 0
@@ -95,7 +68,7 @@ def getJSON(href,fname,query,war,method):
     return json.dumps(data,ensure_ascii=False,indent="\t")
 
 # aQlist(SQL Cheat list) 주입 하여 high(고위험)페이지 판별
-def checkSQLi2(href): #find SQL injection
+def checkSQLi(href): #find SQL injection
     global slistlen
     
     for q in aQlist.qlist : 
@@ -122,28 +95,6 @@ def checkSQLi2(href): #find SQL injection
             else :  
                 slistlen += 1
     print(len(href.arglist))
-
-def checkSQLi(href): #find SQL injection
-    global slistlen
-    #for q in aQlist : 
-    q = " or 1=1"
-    retlist = checkNormal(href,q)
-    reslist = []
-
-    for s in href.arglist : 
-        for i in retlist : 
-            for j in retlist : 
-                if i!=j : 
-                    if checkResSame(i,j):
-                        reslist.append(i)
-                        reslist.append(j)
-        reslist = list(set(reslist))
-        if len(reslist) >= 2 : 
-            pass
-            #vlist.append(getJSON(href,s.name,q,"high"))
-            #vdict.append({"url" : href.baseurl + href.url, "fname":s.name, "query":q, "war":"high"})
-        else :  
-            slistlen += 1
 
 # 쿼리내에서 operater(연산자) 동작을 확인하여 low(저위험)페이지 판별
 # href = hreflist, get method의 argument 에 1(base val)과 2(base val +1) -1 을 진행.

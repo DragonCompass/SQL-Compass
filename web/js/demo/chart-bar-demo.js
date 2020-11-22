@@ -28,8 +28,10 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 }
 
 function updateBarGraph() {
-  myBarChart.data.datasets[0].data=data1;
-  myBarChart.data.datasets[1].data=data2;
+  myBarChart.data.labels = barLabel;
+  myBarChart.data.datasets[0].data=barNum;
+  myBarChart.data.datasets[1].data=barVul;
+  myBarChart.options.scales.yAxes[0].ticks.max=max+5;
   myBarChart.update();
 }
 
@@ -38,18 +40,19 @@ var ctx = document.getElementById("myBarChart");
 var myBarChart = new Chart(ctx, {
   type: 'bar',
   data: {
-    labels: ["January", "February", "March", "April", "May", "June"],
+    labels: ["A", "B", "C", "D", "E", "F"],
     datasets: [{
-      label: "Revenue",
+      label: "전체 파라미터",
       backgroundColor: "#4e73df",
       hoverBackgroundColor: "#2e59d9",
       borderColor: "#4e73df",
       maxBarThickness: 25,
-      data: [4215, 5312, 6251, 7841, 9821, 14984],
+      data: [0,0,0,0,0,0]
     },{
+      label: "취약한 파라미터",
       backgroundColor: '#4fffff',
       maxBarThickness: 25,
-      data: [3024,3502,1430,6045,23145,3135]
+      data: [0,0,0,0,0,0]
     }],
   },
   options: {
@@ -65,7 +68,7 @@ var myBarChart = new Chart(ctx, {
     scales: {
       xAxes: [{
         time: {
-          unit: 'month'
+          unit: 'page'
         },
         gridLines: {
           display: false,
@@ -79,12 +82,12 @@ var myBarChart = new Chart(ctx, {
       yAxes: [{
         ticks: {
           min: 0,
-          max: 15000,
+          max: 10,
           maxTicksLimit: 5,
           padding: 10,
           // Include a dollar sign in the ticks
           callback: function(value, index, values) {
-            return '$' + number_format(value);
+            return number_format(value);
           }
         },
         gridLines: {
@@ -114,11 +117,10 @@ var myBarChart = new Chart(ctx, {
       callbacks: {
         label: function(tooltipItem, chart) {
           var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-          return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+          return datasetLabel + ': ' + number_format(tooltipItem.yLabel)+"개";
         }
       }
     },
   }
 });
 
-updateBarGraph(1000,7006);

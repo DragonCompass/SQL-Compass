@@ -2,7 +2,7 @@
     #exec("cd /var/www/html/KSJ_SQLI_Project/python/dist && ./tool", $str);
     if(isset($_POST["mode"])){
         $mode = $_POST["mode"];
-        exec("tool.exe".$mode,$str);
+        exec("tool.exe ".$mode,$str);
         if($mode==" -m result"){
             echo implode($str);
         }else{
@@ -151,7 +151,8 @@ foreach ($result['vlist'] as $tmp){
     #막대그래프 변경
     #echo ("<script type='text/javascript' src='vendor/chart.js/Chart.js'></script>"); 
     #echo ("<script type='text/javascript' src='js/demo/chart-bar-demo.js'>myBarChart.data.datasets[0].data=$data1</script>");
-    #echo ("<script type='text/javascript' src='js/demo/chart-bar-demo.js'>updateBarGraph(1000,2000)</script>");
+    #echo ("<script type='text/javascript' src='js/demo/chart-bar-demo.js'>updateBarGraph(1000,2000)</script>"
+);
     echo ("<script> var data1= new Array($datav,'5000','4000','3000','2000','1000') </script>");
     echo ("<script> var data2= new Array($datav,'2000','3000','4000','5000','6000') </script>");
     #echo ("<script> var data2= $data2 </script>");

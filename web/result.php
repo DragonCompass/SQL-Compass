@@ -456,7 +456,11 @@
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
+<<<<<<< HEAD
                                     <h6 class="m-0 font-weight-bold text-light">Bar Chart</h6>
+=======
+                                    <h6 class="m-0 font-weight-bold text-primary">Bar Chart</h6>
+>>>>>>> parent of 6e1c443... web-M
                                 </div>
                                 <div class="card-body">
                                     <div class="chart-bar"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
@@ -474,7 +478,11 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+<<<<<<< HEAD
                                     <h6 class="m-0 font-weight-bold text-light">Revenue Sources</h6>
+=======
+                                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+>>>>>>> parent of 6e1c443... web-M
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -630,7 +638,11 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4"></div>
                     <div class="card-header py-3">
+<<<<<<< HEAD
                         <h6 class="m-0 font-weight-bold text-light">DataTables Example</h6>
+=======
+                        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+>>>>>>> parent of 6e1c443... web-M
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">

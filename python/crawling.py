@@ -4,6 +4,7 @@ import requests ,json, difflib, chardet
 import sys
 from tld import get_tld
 from collections import OrderedDict
+import tool
 
 global pcount
 pcount = 0
@@ -116,6 +117,7 @@ class pageset():
 class formset(): #form dataset object
     def __init__ (self,url,name,ftype,method) : 
         self.url = url
+        self.baseurl = ""
         self.method = method
         self.namelist = []
         self.ftypelist = []
@@ -124,6 +126,33 @@ class formset(): #form dataset object
         self.namelist.append(name)
         self.ftypelist.append(ftype)
         self.vallist.append("")
+
+    def dosqli(self,args):
+        global s 
+        
+        params = {}
+        URL = self.baseurl + "/" + self.url
+        # print(URL)
+        headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)\
+        #AppleWebKit/537.36\
+        #(KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36'}
+    
+        for n in self.namelist :
+            params[n] = args
+        s = requests.Session()
+        if self.method == "get" :
+            try :
+                info = s.get("https://"+URL, params = params ,headers = headers)
+            except : 
+                info = s.get("http://"+URL, params = params,headers = headers)
+        elif self.method == "post" :
+            try : 
+                info = s.post("https://"+URL,data=params,headers = headers)
+            except : 
+                info = s.post("http://"+URL,data=params,headers = headers)
+        # print(params)
+        return info.text, info.status_code, args
+
 
     def getdata(self):
         global pcount
@@ -209,7 +238,7 @@ class hrefset(): #sub href link dataset object
 
 
 # 수정해야함!!!!!!!!!!!!!!!!!!!!! http인지 https인지 끝에 붙여야 보낼수있음... 
-    def classmember(self,args): #it returned response text, return code, query
+    def dosqli(self,args): #it returned response text, return code, query
         global s 
         
         params = {}

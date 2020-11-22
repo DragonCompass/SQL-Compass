@@ -6,6 +6,8 @@ import requests
 import argparse
 import json
 
+global baseurl
+
 def logo():
     print("\n")
     print("           _____ ____    __         __________  __  _______  ___   _____")
@@ -77,6 +79,8 @@ def getClass(ltype):
         tmpfs = ""
         with open('class/classtmp') as json_file:
             data = json.load(json_file)
+            global baseurl
+            baseurl = data['URL']
             # print(data)
             for s in data['flist']:
                 tmpf = json.loads(s)
@@ -103,7 +107,7 @@ def savecwl(url):
     page1 = cr.getinfo(url)
     res = page1.getdata()
     tres = json.loads(res)
-    
+    page1.showdata()
     print (tres["pcount"]) #show parameter count * 2
 
     f = open("class/classtmp","w+")
@@ -118,7 +122,6 @@ if __name__=="__main__":
     parser.add_argument('-u', help="URL", required=False)
     parser.add_argument('-t', help="dept", required=False)
     parser.add_argument('-m', help="Mode \"result\"", required=False)
-    parser.add_argument('-s', help="input_string", nargs='+', required=False)
     parser.add_argument('-pl', help="Progress List type \"flist\", \"hreflist\" ]", required=False)
     parser.add_argument('-pt', help="Progress Check type \"voper\", \"sqli\" ", required=False)
     parser.add_argument('-pi', help="Progress index", required=False)
@@ -128,7 +131,8 @@ if __name__=="__main__":
     # baseurl1 = "http://compass.ton80.net/test/gnu5/bbs/board.php?bo_table=free&wr_id=5"
     # baseurl1 = "http://pingu6615.phps.kr/ksj/"
     # baseurl1 = "http://mentoring.ton80.net/"
-    baseurl1 = "http://compass.ton80.net/test/part3/index.php"
+    # baseurl1 = "http://compass.ton80.net/test/part3/index.php"
+    baseurl1 = "http://compass.ton80.net/test/part3/login_form.php"
 
     if args.u:
         baseurl1 = args.u
@@ -138,33 +142,64 @@ if __name__=="__main__":
     else : 
         if args.pl and args.pt : 
             idx = int(args.pi,10)
-            res = getClass(args.pl)
-            if len(res) == 0 :
-                print("empty")
-                exit()
-            if args.pt == "voper" :
-                qc.checkVOper(res[idx])
-                f= open("class/vlist","a+")
-                for s in qc.vlist :
-                    tmps = json.dumps(s,ensure_ascii=False,indent="\t")+"\n"
-                    f.write(json.dumps(s,ensure_ascii=False,indent="\t")+"\n")
-                f.close()
+            if args.pl == "hreflist" : 
+                res = getClass(args.pl)
+                if len(res) == 0 :
+                    print("empty")
+                    exit()
+                if args.pt == "voper" :
+                    qc.checkVOper(res[idx])
+                    f= open("class/vlist","a+")
+                    for s in qc.vlist :
+                        tmps = json.dumps(s,ensure_ascii=False,indent="\t")+"\n"
+                        f.write(json.dumps(s,ensure_ascii=False,indent="\t")+"\n")
+                    f.close()
 
-                f = open("class/"+args.pi+"."+args.pl+".class","w+")
-                f.write(res[idx].getdata())
-                f.close()
-            elif args.pt == "sqli":
-                qc.checkSQLi(res[idx])
-                f= open("class/vlist","a+")
-                for s in qc.vlist :
-                    tmps = json.dumps(s,ensure_ascii=False,indent="\t")+"\n"
-                    f.write(json.dumps(s,ensure_ascii=False,indent="\t")+"\n")
-                f.close()
+                    f = open("class/"+args.pi+"."+args.pl+".class","w+")
+                    f.write(res[idx].getdata())
+                    f.close()
+                elif args.pt == "sqli":
+                    qc.checkSQLi(res[idx])
+                    f= open("class/vlist","a+")
+                    for s in qc.vlist :
+                        tmps = json.dumps(s,ensure_ascii=False,indent="\t")+"\n"
+                        f.write(json.dumps(s,ensure_ascii=False,indent="\t")+"\n")
+                    f.close()
 
-                f = open("class/"+args.pi+"."+args.pl+".class","w+")
-                f.write(res[idx].getdata())
-                f.close()
-            else : 
-                print("please set options correctly (-pt)")    
+                    f = open("class/"+args.pi+"."+args.pl+".class","w+")
+                    f.write(res[idx].getdata())
+                    f.close()
+                else : 
+                    print("please set options correctly (-pt)")   
+            elif args.pl == "flist":
+                res = getClass(args.pl)
+                global baseurl
+                res.baseurl = baseurl
+                
+                if args.pt == "voper" :
+                    qc.checkVOper(res)
+                    f= open("class/vlist","a+")
+                    for s in qc.vlist :
+                        tmps = json.dumps(s,ensure_ascii=False,indent="\t")+"\n"
+                        f.write(json.dumps(s,ensure_ascii=False,indent="\t")+"\n")
+                    f.close()
+
+                    f = open("class/"+args.pi+"."+args.pl+".class","w+")
+                    f.write(res.getdata())
+                    f.close()
+                elif args.pt == "sqli":
+                    qc.checkSQLi(res)
+                    f= open("class/vlist","a+")
+                    for s in qc.vlist :
+                        tmps = json.dumps(s,ensure_ascii=False,indent="\t")+"\n"
+                        f.write(json.dumps(s,ensure_ascii=False,indent="\t")+"\n")
+                    f.close()
+
+                    f = open("class/"+args.pi+"."+args.pl+".class","w+")
+                    f.write(res.getdata())
+                    f.close()
+                else : 
+                    print("please set options correctly (-pt)")   
+                # res.showdata()
         else : 
             page1 = savecwl(baseurl1)

@@ -74,27 +74,40 @@ def checkSQLi(href): #find SQL injection
     for q in aQlist.qlist : 
         retlist = checkNormal(href,q)
         reslist = []
-
-        for s in href.arglist : 
+        # print(retlist)
+        if "hrefset" in str(type(href)) :
+            for s in href.arglist : 
+                for i in retlist : 
+                    for j in retlist : 
+                        if i!=j : 
+                            if checkResSame(i,j):
+                                reslist.append(i)
+                                reslist.append(j)
+                reslist = list(set(reslist))
+        elif "formset" in str(type(href)) :
             for i in retlist : 
+                print(i)    
                 for j in retlist : 
                     if i!=j : 
                         if checkResSame(i,j):
                             reslist.append(i)
                             reslist.append(j)
             reslist = list(set(reslist))
-            # print(reslist)
-
-
-            if len(reslist) >= 2 : 
-                s.vul = "high"
-                href.vul = "high" 
-                vlist.append(getJSON(href,s.name,q,"high",href.method))
-                #vlist.append(getJSON(href,s.name,q,"high"))
-                #vdict.append({"url" : href.baseurl + href.url, "fname":s.name, "query":q, "war":"high"})
-            else :  
-                slistlen += 1
-    print(len(href.arglist))
+        
+        if len(reslist) >= 2 : 
+            s.vul = "high"
+            href.vul = "high" 
+            vlist.append(getJSON(href,s.name,q,"high",href.method))
+            #vlist.append(getJSON(href,s.name,q,"high"))
+            #vdict.append({"url" : href.baseurl + href.url, "fname":s.name, "query":q, "war":"high"})
+        else :  
+            slistlen += 1
+    # print(reslist)
+    # print(str(type(href)))
+    if "hrefset" in str(type(href))  :
+        print(len(href.arglist))
+    elif "formset" in str(type(href))  :
+        print(len(href.namelist))
 
 # 쿼리내에서 operater(연산자) 동작을 확인하여 low(저위험)페이지 판별
 # href = hreflist, get method의 argument 에 1(base val)과 2(base val +1) -1 을 진행.
@@ -106,8 +119,8 @@ def checkVOper(href): #check operater is worked in query
         count += 1
         if(s.atype == "digit"):
             cq = str(( int(s.oval)+1)) + '-1'
-            res1 = href.classmember(s.oval)
-            res2 = href.classmember(cq)    
+            res1 = href.dosqli(s.oval)
+            res2 = href.dosqli(cq)    
             # res1, res2의 결과값이 같다면 operator 동작으로 low 취약점 리스트에 세팅.
             if checkResSame(res1,res2) :
                 s.vul = "low"
@@ -123,10 +136,10 @@ def checkVOper(href): #check operater is worked in query
 
 def checkNormal(href,q):
     an,nl = makeAnormal(href)
+    print(nl)
     retlist = []
     for s in nl : 
-        # print("query : "+s+q)
-        res = href.classmember(s+q)
+        res = href.dosqli(s+q)
         # compare with anormal result.
         if checkResSame(an,res) : #this result is anormal 
             pass
@@ -136,13 +149,14 @@ def checkNormal(href,q):
     return retlist
         
 def makeAnormal(href) : #find anormal result
-    qlist = ['1','2','3','4','5','a','b','c','d','-1','-2','-3','a1','1a','aa1','11a','1a1','a11']
+    qlist = ['1','2','3','a','b','c','0','-1','-2']
     neq = [] #non-error querys 
     an = [] #anormally returns
     nl = [] #normal querys    
     
     for q in qlist :
-        res = href.classmember(q)
+        res = href.dosqli(q)
+        # print(res)
         if checkError(res) :
             neq.append(res)
         
@@ -160,14 +174,17 @@ def makeAnormal(href) : #find anormal result
         nl.append(s[2])
     for s in an:
         nl.remove(s[2])   
-
+    if (len(an) == 0) :
+        an.append(" ")
+    if (len(nl) == 0) :
+        nl.append(" ")
     return an[0],nl
 
 
 # 두 페이지를 비교하여 결과값이 같다면 True 를 리턴한다.
 def checkResSame(res1,res2): #check res1 and res2 request result is same
-    # res1 = href.classmember(q1)
-    # res2 = href.classmember(q2)    
+    # res1 = href.dosqli(q1)
+    # res2 = href.dosqli(q2)    
     q1 = res1[2]
     q2 = res2[2]
 

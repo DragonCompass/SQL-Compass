@@ -339,8 +339,8 @@
                     }
                 }
             }
-            console.log(maxQuery);*/
-
+            console.log(maxQuery);
+*/
             console.log(queryData);
             var classData = ['bg-danger','bg-warning','','bg-info','bg-success'];
             for(var i=0; i<5; i++){

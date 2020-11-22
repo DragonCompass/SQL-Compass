@@ -20,39 +20,251 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    type="text/javascript"></script>
+    <style type="text/css" >
+        .wrap-loading{ /*화면 전체를 어둡게 합니다.*/
+            position: fixed;
+            left:0;
+            right:0;
+            top:0;
+            bottom:0;
+            background: rgba(0,0,0,0.2); /*not in ie */
+            filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000',endColorstr='#20000000');    /* ie */
+        }
+        .wrap-loading div{ /*로딩 이미지*/
+            position: fixed;
+            top:50%;
+            left:50%;
+            margin-left: -21px;
+            margin-top: -21px;
+        }
+        .display-none{ /*감추기*/
+            display:none;
+        }
 
+    #loading{
+	    background-color : white;
+        height : 50vh;
+        width : 50vw;
+        z-index : 11;
+        position : absolute;
+        top:50%;
+        left:10%;
+        display : block;		
+	}
+	#mask {
+		background-color : black;
+		opacity : 0.5;
+		display : block;
+		z-index : 10;
+		position : absolute;
+		height : 100vh;
+		width : 100vw;	
+		top : 0;
+		left : 0;
+    }	
+    </style>
     <?php 
-		echo $_POST['url'];
-		echo $_POST['option'];
-		include "handle.php"; 
-?>
+		$url = $_POST['url'];
+        $option=$_POST['option'];
+        echo $url;
+        include "handle.php";
+    ?>
+    <script>
+        var sum = 0;
+        var total = 0;
+        var url = "<?=$url?>";
+        //$('#mask').css('display','block');
+        //console.log($('#mask').text());
+        if(url){
+            //$('#loading').css('display','block');
+            //$('#mask').css('display','block');
+            //console.log($('#mask').text());
+            $.ajax({
+                type:"POST"
+               ,url: "handle.php"
+               ,data: { url: "<?=$url?>", option:"<?=$option?>", mode:""}
+               ,beforeSend:function(){
+                    //$('.wrap-loading').removeClass('display-none');
+                }
+               ,success:function(res){
+                    console.log(res);
+                    sum = res*2;
+                    total = res;
+                    /*form = res-1;
+                    sum = res*2;
+                    console.log("c0"+sum);*/
+               }
+               ,error:function(e){
+                   //alert(e);
+               }   
+            }).done(
+               function(){
+                    vulSearch();
+               }
+           );
+        }
+        console.log("c1"+sum);
+        function vulSearch(){
+            var pl = ["hreflist"];
+            var pt = ["voper","sqli"];
+            var percent="";
+            var modei="";
+            check=0;
+            var countNum=1;
+            for(var i=0; i<1; i++){
+                for(var j=0; j<2; j++){
+                    for(var index=0; index<total; index++){
+                        console.log("index"+index);
+                        $.ajax({
+                            type:"POST"
+                            ,url: "handle.php"
+                            ,data: {mode: " -pl "+pl[i]+" -pt "+pt[j]+" -pi "+index}
+                            ,success:function(res){
+                                //console.log(res);
+                                check = check+Number(res[0]);
+                                console.log(check);
+                                console.log("count:"+countNum);
+                                percent=Math.floor((check)/sum*100);
+                                $('#progressRatio').width(percent);
+                                $('#progressRatio').html(percent+"%");
+                            }
+                            ,complete:function(){
+                                // $('.wrap-loading').addClass('display-none');
+                            }
+                            ,error:function(e){
+                            //alert(e);   
+                            }
+                        }).done(
+                            function(){
+                                countNum +=1;
+                                if(countNum==sum+1){//index==total && j==1
+                                    console.log("마지막 실행")
+                                    $.ajax({
+                                        type:"POST"
+                                        ,url: "handle.php"
+                                        ,data: {mode: " -m result"}
+                                        ,success:function(res){
+                                            var result = JSON.parse(res);
+                                            console.log(result);
+                                        }
+                                        ,complete:function(){
+                                            // $('.wrap-loading').addClass('display-none');
+                                        }
+                                        ,error:function(e){
+                                        //alert(e);
+                                        }   
+                                    }).done(
+                                        //continue;
+                                    );
+                                }
+                            }
+                        );
+                    }
+                }
+                console.log("for마지막")
+            }
+            console.log("끝");
+        }
+        /*function vulSearch(h,f){
+            var percent="";
+            var check=0;
+            var repeat="";
+            console.log("c2"+sum);
+            $.ajax({
+                type:"POST"
+               ,url: "handle.php"
+               ,data: {url: 0,formNum: form, href:h, flist:f, repeatCheck: repeat}
+               ,success:function(res){
+                    console.log(h);
+                    var data= res.split("^");
+                    if(data[1]=="h1"){
+                        console.log(data[1]);
+                        repeat="h1"
+                        h=-1;
+                    }else if(data[1]=="h2"){
+                        repeat="h2"
+                        console.log(h);
+                    }
+                    check = check+data[0];
+                    percent=Math.floor((check)/sum*100);
+                    $('#progressRatio').width(percent);
+                    $('#progressRatio').html(percent+"%");
+               }
+               ,complete:function(){
+                   // $('.wrap-loading').addClass('display-none');
+                }
+               ,error:function(e){
+                   //alert(e);
+               }   
+            }).done(
+               function(){
+                console.log("c3"+sum);
+                   if(percent=="100"){
+                        $('.wrap-loading').addClass('display-none');
+                   }else{
+                       if(h<form){
+                           h +=1;
+                           vulSearch(h,f);
+                       }else if(h==form && repeat=="h2"){
+                            vulSearch(h,f);
+                       }
+                       
+                   }
+               }
+           );
+        }*/
+    </script>
+
 
 </head>
 
 <body id="page-top">
+    <div id="mask">a</div>
+                <div class="wrap-loading" id="loading">
+                    <div class="progress" style="height:20px">
+                            <div id="progressRatio" class="progress-bar progress-bar-striped progress-bar-animated" style="width:40%; height:20px">40%</div>
+                        </div>
+                    <div class="col-xl-8 col-md-6 mb-4">
+                        
+                    </div>
+                </div> 
 
     <!-- Page Wrapper -->
     <div id="wrapper">
+        
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
             <!-- Main Content -->
             <div id="content">
+                
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                    <a href="index.php"><img src="img/logoSample.png" width="40" height="40"></a>
                     
-                    <form class="d-none d-sm-inline-block form-inline col-xl-11 col-md-11 mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
+                       <!-- <div class="col-xl-8 col-md-6 mb-4">
+                            <div class="progress" style="height:20px">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:40%; height:20px">40%</div>
                             </div>
-                        </div>
-                    </form>
+                        </div>-->
+                    
+                    
+                       <a href="index.php"><img src="img/logoSample.png" width="40" height="40"></a>
+                        
+                        <form class="d-none d-sm-inline-block form-inline col-xl-11 col-md-11 mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                            <div class="input-group">
+                                <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                                    aria-label="Search" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button">
+                                        <i class="fas fa-search fa-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    
+                    
                 </nav>
                 <!-- End of Topbar -->
 
@@ -65,7 +277,13 @@
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
                     </div> -->
-
+                    <!--<div class="row">
+                        <div class="col-xl-8 col-md-6 mb-4" style="">
+                            <div class="progress" style="height:30px">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:40%; height:30px">40%</div>
+                            </div>
+                        </div>
+                    </div>-->
                     <!-- Content Row -->
                     <div class="row">
                         <!--<div class="col-xl-12 col-md-12 mb-4">
@@ -127,12 +345,12 @@
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?= $page_ratio; ?></div>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?= $page_ratio."%"; ?></div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="progress progress-sm mr-2">
                                                         <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 33%" aria-valuenow=<?= $page_ratio; ?> aria-valuemin="0"
+                                                            style="width: <?=$page_ratio?>%" aria-valuenow="<?=$page_ratio?>" aria-valuemin="0"
                                                             aria-valuemax="100"></div>
                                                     </div>
                                                 </div>
@@ -244,101 +462,6 @@
                                     <div class="chart-bar"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
                                     
                                         <canvas id="myBarChart" width="1093" height="400" class="chartjs-render-monitor" style="display: block; height: 320px; width: 875px;"></canvas>
-                                        <?php #updateBarGraph(1000,2000);
-                                        #echo ("<script type='text/javascript' src='vendor/chart.js/Chart.min.js'></script>"); 
-                                        #echo ("<script type='text/javascript' src='js/demo/chart-bar-demo.js'>updateBarGraph(1000,2000)</script>");
-                                        #document.getElementById("myBarChart").data.datasets[0].data=[1000,2000,3000,4000,5000,6000];
-                                        #document.getElementById("myBarChart").data.datasets[1].data[0]=6000;
-                                        #document.getElementById("myBarChart").update();
-                                        ?>
-                                        <!--<script>
-                                        var ctx = document.getElementById("myBarChart");
-var myBarChart = new Chart(ctx, {
-  type: 'bar',
-  data: {
-    labels: ["January", "February", "March", "April", "May", "June"],
-    datasets: [{
-      label: "Revenue",
-      backgroundColor: "#4e73df",
-      hoverBackgroundColor: "#2e59d9",
-      borderColor: "#4e73df",
-      maxBarThickness: 25,
-      data: [1000,2000,3000,4000,5000,6000]
-    },{
-      backgroundColor: '#4fffff',
-      maxBarThickness: 25,
-      data: [3024,3502,1430,6045,23145,3135]
-    }],
-  },
-  options: {
-    maintainAspectRatio: false,
-    layout: {
-      padding: {
-        left: 10,
-        right: 25,
-        top: 25,
-        bottom: 0
-      }
-    },
-    scales: {
-      xAxes: [{
-        time: {
-          unit: 'month'
-        },
-        gridLines: {
-          display: false,
-          drawBorder: false
-        },
-        ticks: {
-          maxTicksLimit: 6
-        }
-        //maxBarThickness: 25,
-      }],
-      yAxes: [{
-        ticks: {
-          min: 0,
-          max: 15000,
-          maxTicksLimit: 5,
-          padding: 10,
-          // Include a dollar sign in the ticks
-          callback: function(value, index, values) {
-            return '$' + number_format(value);
-          }
-        },
-        gridLines: {
-          color: "rgb(234, 236, 244)",
-          zeroLineColor: "rgb(234, 236, 244)",
-          drawBorder: false,
-          borderDash: [2],
-          zeroLineBorderDash: [2]
-        }
-      }],
-    },
-    legend: {
-      display: false
-    },
-    tooltips: {
-      titleMarginBottom: 10,
-      titleFontColor: '#6e707e',
-      titleFontSize: 14,
-      backgroundColor: "rgb(255,255,255)",
-      bodyFontColor: "#858796",
-      borderColor: '#dddfeb',
-      borderWidth: 1,
-      xPadding: 15,
-      yPadding: 15,
-      displayColors: false,
-      caretPadding: 10,
-      callbacks: {
-        label: function(tooltipItem, chart) {
-          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-          return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
-        }
-      }
-    },
-  }
-});
-                                        </script>-->
                                 </div>
                                     <hr>
                                 </div>

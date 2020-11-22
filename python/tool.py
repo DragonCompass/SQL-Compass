@@ -130,9 +130,8 @@ if __name__=="__main__":
 
     # baseurl1 = "http://compass.ton80.net/test/gnu5/bbs/board.php?bo_table=free&wr_id=5"
     # baseurl1 = "http://pingu6615.phps.kr/ksj/"
-    # baseurl1 = "http://mentoring.ton80.net/"
+    baseurl1 = "http://mentoring.ton80.net/"
     # baseurl1 = "http://compass.ton80.net/test/part3/index.php"
-    baseurl1 = "http://compass.ton80.net/test/part3/login_form.php"
 
     if args.u:
         baseurl1 = args.u

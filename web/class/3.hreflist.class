@@ -1,0 +1,9 @@
+{
+	"url": "sql4.php",
+	"method": "GET",
+	"vul": "high",
+	"flist": [],
+	"alist": [
+		"{\n\t\"name\": \"i\",\n\t\"atype\": \"digit\",\n\t\"oval\": \"1\",\n\t\"vul\": \"high\"\n}"
+	]
+}

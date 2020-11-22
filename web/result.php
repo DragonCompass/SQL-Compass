@@ -42,14 +42,15 @@
         .display-none{ /*감추기*/
             display:none;
         }
-    #progressBar{
-        height 15%;
-        width : 70%;
+
+    #loading{
+	    background-color : white;
+        height : 50vh;
+        width : 50vw;
         z-index : 11;
         position : absolute;
-        top:20%;
-        left:15%;
-        margin: 0 auto;
+        top:50%;
+        left:10%;
         display : block;		
 	}
 	#mask {
@@ -58,49 +59,39 @@
 		display : block;
 		z-index : 10;
 		position : absolute;
-		height : 100%;
-		width : 100%;	
+		height : 100vh;
+		width : 100vw;	
 		top : 0;
 		left : 0;
     }	
     </style>
     <?php 
-		$url = $_POST["search"];
+		$url = $_POST['url'];
         $option=$_POST['option'];
-        //echo $url;
-        //include "handle.php";
+        echo $url;
+        include "handle.php";
     ?>
     <script>
         var sum = 0;
         var total = 0;
         var url = "<?=$url?>";
-        var result;
-        var pieData=[];
-        var barLabel=[];
-        var barNum=[];
-        var barVul=[];
-        var max=0;
         //$('#mask').css('display','block');
         //console.log($('#mask').text());
         if(url){
             //$('#loading').css('display','block');
-            $('#mask').css('display','block');
-            console.log($('#mask').text());
+            //$('#mask').css('display','block');
+            //console.log($('#mask').text());
             $.ajax({
                 type:"POST"
                ,url: "handle.php"
-               ,data: { url: "<?=$url?>", option:"<?=$option?>"}//, mode:""
+               ,data: { url: "<?=$url?>", option:"<?=$option?>", mode:""}
                ,beforeSend:function(){
                     //$('.wrap-loading').removeClass('display-none');
-                    /*$('#loading').css('display','block');
-                    $('#mask').css('display','block');
-                    console.log($('#mask').css('display'));*/
                 }
                ,success:function(res){
                     console.log(res);
                     sum = res*2;
                     total = res;
-                    //result = JSON.parse(res);
                     /*form = res-1;
                     sum = res*2;
                     console.log("c0"+sum);*/
@@ -111,7 +102,6 @@
             }).done(
                function(){
                     vulSearch();
-                    //data_set();
                }
            );
         }
@@ -137,7 +127,7 @@
                                 console.log(check);
                                 console.log("count:"+countNum);
                                 percent=Math.floor((check)/sum*100);
-                                $('#progressRatio').width(percent+"%");
+                                $('#progressRatio').width(percent);
                                 $('#progressRatio').html(percent+"%");
                             }
                             ,complete:function(){
@@ -156,7 +146,7 @@
                                         ,url: "handle.php"
                                         ,data: {mode: " -m result"}
                                         ,success:function(res){
-                                            result = JSON.parse(res);
+                                            var result = JSON.parse(res);
                                             console.log(result);
                                         }
                                         ,complete:function(){
@@ -167,9 +157,6 @@
                                         }   
                                     }).done(
                                         //continue;
-                                        function(){
-                                            data_set();
-                                        }
                                     );
                                 }
                             }
@@ -228,90 +215,6 @@
                }
            );
         }*/
-        function data_set(){
-            $("#apagelen").text(result.apagelen);
-            $("#vpagelen").text(result.vpagelen);
-            $("#page_ratio").text(Math.round(result.vpagelen/result.apagelen*100,1)+"%");
-            $(function() {
-                console.log($("#ratioBar").css('width'));
-                
-            });
-            $("#ratioBar").css('width', Math.round(result.vpagelen/result.apagelen*100,1));    
-            $("#ratioBar").css('aria-valuenow', Math.round(result.vpagelen/result.apagelen*100,1));
-            $("#vparlen").text(result.vparlen);
-            $("#high").text(result.high);
-            $("#low").text(result.low);
-
-            var normal = Math.round(result.sparlen/result.aparlen*100,0);
-            var high = Math.round(result.high/result.aparlen*100,0);
-            var low = Math.round(result.low/result.aparlen*100,0);
-            console.log("normal:"+normal+"high:"+high+"low:"+low);
-            pieData= [normal,high,low];
-            updatePieGraph();
-
-            var barData=Array();
-            for(var i=0; i<result.vpage.length;i++){
-                var bar = JSON.parse(result.vpage[i]);
-                barData.push({'url':bar.url, 'safe':bar.safe, 'high':bar.high, 'low':bar.low});
-                //barData.push([table.url,table.method, table.fname,table.war, table.query]);
-            }
-            console.log(barData);
-            for(var i=0; i<barData.length; i++){
-                //if(barData[i].safe.length==0){
-                    barLabel.push(barData[i].url);
-                    barNum.push(barData[i].safe.length+barData[i].high.length+barData[i].low.length);
-                    barVul.push(barData[i].high.length+barData[i].low.length);
-                    if(max<barData[i].safe.length+barData[i].high.length+barData[i].low.length)
-                        max=barData[i].safe.length+barData[i].high.length+barData[i].low.length;
-                //}
-            }
-            updateBarGraph();
-
-            var tableData=Array();
-            for(var i=0; i<result.vlist.length;i++){
-                var table = JSON.parse(result.vlist[i]);
-                //console.log(table);
-                //tableData.push({'url':table.url, 'method':table.method, 'fname':table.fname, 'war':table.war, 'query':table.query});
-                tableData.push([table.url,table.method, table.fname,table.war, table.query]);
-            }
-            console.log(tableData);
-            /*var tag=[];
-            for(var i=0; i<result.vlist.length;i++){
-                var url = ;
-                var method = $tableData[$i][1];
-                var fname = $tableData[$i][2];
-                var war = $tableData[$i][3];
-                var query = $tableData[$i][4];
-                console.log(tableData[i][0]);
-                tag.push("<tr>");
-                tag.push("<td>"+tableData[i][0]+"</td>");
-                tag.push("<td>"+tableData[i][1]+"</td>");
-                tag.push("<td>"+tableData[i][2]+"</td>");
-                tag.push("<td>"+tableData[i][3]+"</td>");
-                tag.push("<td>"+tableData[i][4]+"</td>");
-                tag.push("</tr>");
-            }*/
-            //console.log(tag);
-            
-            var table = $("#dataTable").DataTable();
-            table.rows.add(tableData).draw();
-
-            var queryData = Array();
-            //위의 table에서 체크하면 될듯
-            for(var i=0; i<result.vlist.length; i++)                             {
-                var table = JSON.parse(result.vlist[i]);
-                if(table.query in queryData){
-                    queryData[i].count +=1;
-                }else{
-                    //queryData[i].query = table.query;
-                    queryData.push({'query': table.query, 'count': 0});
-                }
-            }
-            console.log('2-1' in queryData);
-
-            $('#progressBar').css('display','none');
-            $('#mask').css('display','none');
-        }
     </script>
 
 
@@ -319,11 +222,14 @@
 
 <body id="page-top">
     <div id="mask">a</div>
-
-    <div id='progressBar' class="progress" style="height:30px">
-        <div id="progressRatio" class="progress-bar progress-bar-striped progress-bar-animated"  role="progressbar"
-        style="width:100%; height:30px" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-    </div>
+                <div class="wrap-loading" id="loading">
+                    <div class="progress" style="height:20px">
+                            <div id="progressRatio" class="progress-bar progress-bar-striped progress-bar-animated" style="width:40%; height:20px">40%</div>
+                        </div>
+                    <div class="col-xl-8 col-md-6 mb-4">
+                        
+                    </div>
+                </div> 
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -348,7 +254,7 @@
                         
                         <form class="d-none d-sm-inline-block form-inline col-xl-11 col-md-11 mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                             <div class="input-group">
-                                <input type="text" class="form-control bg-light border-0 small" placeholder="검사한 페이지 주소 >> <?=$url?>"
+                                <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
                                     aria-label="Search" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="button">
@@ -401,7 +307,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 검사한 페이지 수</div>
-                                            <div id="apagelen" class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $check_page_num; ?></div>
                                         </div>
                                         <!-- <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -419,7 +325,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 취약점이 발견된 페이지 수</div>
-                                            <div id="vpagelen" class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $vul_page_num; ?></div>
                                         </div>
                                         <!-- <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -439,12 +345,12 @@
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div id="page_ratio" class="h5 mb-0 mr-3 font-weight-bold text-gray-800"></div>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?= $page_ratio."%"; ?></div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="progress progress-sm mr-2">
-                                                        <div id="ratioBar" class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 0%" aria-valuenow="0" aria-valuemin="0"
+                                                        <div class="progress-bar bg-info" role="progressbar"
+                                                            style="width: <?=$page_ratio?>%" aria-valuenow="<?=$page_ratio?>" aria-valuemin="0"
                                                             aria-valuemax="100"></div>
                                                     </div>
                                                 </div>
@@ -466,7 +372,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
                                                 총 취약점 개수</div>
-                                            <div id="vparlen" class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $vul_num?></div>
                                         </div>
                                         <!-- <div class="col-auto">
                                             <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -484,7 +390,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                 고위험 취약점 개수</div>
-                                            <div id="high" class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $high_vul_num?></div>
                                         </div>
                                         <!-- <div class="col-auto">
                                             <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -502,7 +408,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 저위험 취약점 개수</div>
-                                            <div id="low" class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $low_vul_num?></div>
                                         </div>
                                         <!-- <div class="col-auto">
                                             <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -518,7 +424,7 @@
                     <div class="row">
 
                         <!-- Area Chart -->
-                        <!--<div class="col-xl-8 col-lg-7">
+                        <!-- <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
                                 Card Header - Dropdown
                                 <div
@@ -550,7 +456,11 @@
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">페이지별 파라미터 현황</h6>
+<<<<<<< HEAD
+                                    <h6 class="m-0 font-weight-bold text-light">Bar Chart</h6>
+=======
+                                    <h6 class="m-0 font-weight-bold text-primary">Bar Chart</h6>
+>>>>>>> parent of 6e1c443... web-M
                                 </div>
                                 <div class="card-body">
                                     <div class="chart-bar"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
@@ -568,7 +478,11 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">취약 파라미터 비율</h6>
+<<<<<<< HEAD
+                                    <h6 class="m-0 font-weight-bold text-light">Revenue Sources</h6>
+=======
+                                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+>>>>>>> parent of 6e1c443... web-M
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -591,13 +505,13 @@
                                     </div>
                                     <div class="mt-4 text-center small">
                                         <span class="mr-2">
-                                            <i class="fas fa-circle" style='color: #e74a3b'></i> High
+                                            <i class="fas fa-circle text-primary"></i> Direct
                                         </span>
                                         <span class="mr-2">
-                                            <i class="fas fa-circle" style='color: #f6c23e'></i> Low
+                                            <i class="fas fa-circle text-success"></i> Social
                                         </span>
                                         <span class="mr-2">
-                                            <i class="fas fa-circle" style='color: #1cc88a'></i> normal
+                                            <i class="fas fa-circle text-info"></i> Referral
                                         </span>
                                     </div>
                                 </div>
@@ -724,22 +638,57 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4"></div>
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">SQL Injection 결과</h6>
+<<<<<<< HEAD
+                        <h6 class="m-0 font-weight-bold text-light">DataTables Example</h6>
+=======
+                        <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+>>>>>>> parent of 6e1c443... web-M
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>취약점 페이지</th>
-                                        <th>METHOD</th>
-                                        <th>취약점 파라미터</th>
-                                        <th>Warning</th>
+                                        <th>URL</th>
+                                        <th>FORM</th>
                                         <th>QUERY</th>
                                     </tr>
                                 </thead>
-                                <tbody id="table">
+                                <tbody>
+                                    <!--<tr>
+                                        <td>Tiger Nixon</td>
+                                        <td>System Architect</td>
+                                        <td>Edinburgh</td>
+                                        <td>61</td>
+                                        <td>2011/04/25</td>
+                                        <td>$320,800</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Garrett Winters</td>
+                                        <td>Accountant</td>
+                                        <td>Tokyo</td>
+                                        <td>63</td>
+                                        <td>2011/07/25</td>
+                                        <td>$170,750</td>
+                                    </tr>-->
+                                    <?php
+                                    for($i=0; $i<count($tableData);$i++){
+                                        /*$url = $tableData[$i]['url'];
+                                        $form = $tableData[$i]['form'];
+                                        $query = $tableData[$i]['query'];*/
+                                        $url = $tableData[$i][0];
+                                        $form = $tableData[$i][1];
+                                        $query = $tableData[$i][2];
                                     
+                                    ?>
+                                    <tr>
+                                        <td><?=$url?></td>
+                                        <td><?=$form?></td>
+                                        <td><?=$query?></td>
+                                    </tr>
+                                    <?php
+                                    }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>

@@ -142,7 +142,7 @@ foreach ($result['vlist'] as $tmp){
 			$vlist['query'],
 		)
 	);
-} 
+}
 
 #   $tableData = [['a','b','c'],['a','b','c'],['a','b','c']];
 

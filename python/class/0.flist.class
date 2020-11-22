@@ -1,0 +1,12 @@
+{
+	"url": "login.php",
+	"method": "post",
+	"name": [
+		"id",
+		"pass"
+	],
+	"ftype": [
+		"text",
+		"password"
+	]
+}

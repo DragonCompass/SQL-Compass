@@ -1,9 +1,0 @@
-{
-	"url": "sql5.php",
-	"method": "GET",
-	"vul": "safe",
-	"flist": [],
-	"alist": [
-		"{\n\t\"name\": \"i\",\n\t\"atype\": \"digit\",\n\t\"oval\": \"1\",\n\t\"vul\": \"safe\"\n}"
-	]
-}

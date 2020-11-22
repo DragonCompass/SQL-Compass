@@ -3,10 +3,9 @@ from bs4 import BeautifulSoup as bs
 import requests ,json, difflib, chardet
 import sys
 from tld import get_tld
-from collections import OrderedDict
 
-global pcount
-pcount = 0
+global foo 
+
 # ------------------------------------------------------------------
 # -------------- SQL Injection Automation Tool V.0.01--------------- 
 # ---------------- by KSJ 5th / Dragon Compass Team----------------- 
@@ -26,56 +25,36 @@ def getinfo(url) :
     mainpage = pageset(gbaseurl)
     return mainpage
 
+
+
 # ------------------------------------------------------------------
 # ----------------------- class declaration ------------------------ 
 # ------------------------------------------------------------------
 
 class pageset(): 
-    def __init__ (self,url,flist=None,hreflist=None):
-        global pcount
-        if flist == None:
-            # getsoup함수를 통해 soup객체와 정리된 url을 저장한다.
-            self.soup,self.url = getsoup(url)         
+    def __init__ (self,url):
 
-            # getform함수를 통해 formset object list들을 flist에 저장한다. 
-            self.flist = getform(self.soup)        
-            self.hreflist = getlinks(self.soup,self.url)
-        else :
-            self.url = url
-            self.flist = flist
-            self.hreflist = hreflist
+        # getsoup함수를 통해 soup객체와 정리된 url을 저장한다.
+        self.soup,self.url = getsoup(url)         
 
-    def getdata(self):
-        data = OrderedDict()
-        data['URL'] = self.url
-        data['flist'] = []
-        data['hreflist'] = []
-        for s in self.flist : 
-            data['flist'].append(s.getdata())
-
-        for s in self.hreflist : 
-            data['hreflist'].append(s.getdata())
-        data['pcount'] = pcount
-        res = json.dumps(data,ensure_ascii=False,indent="\t")
-        return res
-
-
+        # getform함수를 통해 formset object list들을 flist에 저장한다. 
+        self.flist = getform(self.soup)        
+        self.hreflist = getlinks(self.soup,self.url)
+        
     def showdata(self): #make pageinfo
         print ("========== parent page ==========")
-        print ("URL : "+self.url)
+        print ("URL : "+gbaseurl)
         print ("============== forms ==============")
         i = 0
-
         for s in self.flist :
             print("target url "+"["+str(i)+"]"+" : ")
             s.showdata()
             i += 1
-                
         i = 0
         print ("============== childpages ==============")
         for s in self.hreflist : 
             # s.getformset() # get childpages form information
-            s.showdata()
+            s.showdata()            
         print ("========================================")
 
     def setval(self,uidx,aidx,val) :
@@ -125,28 +104,11 @@ class formset(): #form dataset object
         self.ftypelist.append(ftype)
         self.vallist.append("")
 
-    def getdata(self):
-        global pcount
-        data = OrderedDict()
-        data['url'] = self.url
-        data['method'] = self.method
-        data['name'] = []
-        data['ftype'] = []
-        for s in self.namelist:
-            data['name'].append(s)
-            pcount += 1
-        for s in self.ftypelist:  
-            data['ftype'].append(s)
-        
-        res = json.dumps(data,ensure_ascii=False,indent="\t")
-        return res
-
     def showdata(self):
         i = 0
         print (self.url + " \nmethod : " + self.method)
         print ("----- input info ----- ")
         for s in self.namelist : 
-            
             print("["+str(i)+"]name : " + s + "\n   type : " + self.ftypelist[i])
             if(self.vallist[i] == "") : 
                 print("   value : none")
@@ -163,31 +125,14 @@ class formset(): #form dataset object
         self.vallist[idx] = val
 
 class hrefset(): #sub href link dataset object
-    def __init__ (self,url,baseurl,vul="safe") :
+    def __init__ (self,url,baseurl) :
         self.url = url
         self.baseurl = baseurl
         self.formlist = []
         self.arglist = []
         self.Actionurl = ""
-        self.method="GET"     
-        self.vul = vul
+        self.method="GET"        
     
-    def getdata(self):
-        global pcount
-        data = OrderedDict()
-        data['url'] = self.url
-        data['method'] = self.method
-        data['vul'] = self.vul
-        data['flist'] = []
-        data['alist'] = []        
-        for s in self.formlist : 
-            data['flist'].append(s.getdata())
-        for s in self.arglist : 
-            data['alist'].append(s.getdata())
-            pcount += 1
-        res = json.dumps(data,ensure_ascii=False,indent="\t")
-        return res
-
     def showdata(self):
         print ("----- href page info -----")
         print ("URL : "+self.url)
@@ -210,11 +155,10 @@ class hrefset(): #sub href link dataset object
 
 # 수정해야함!!!!!!!!!!!!!!!!!!!!! http인지 https인지 끝에 붙여야 보낼수있음... 
     def classmember(self,args): #it returned response text, return code, query
-        global s 
-        
         params = {}
         # print("="*30)
         URL = "http://" + self.baseurl + self.url
+        # print(URL)
         headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)\
         #AppleWebKit/537.36\
         #(KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36'}
@@ -231,7 +175,6 @@ class hrefset(): #sub href link dataset object
                 i += 1
         else : 
             params = {self.arglist[0].name : args}
-        s = requests.Session()
         info = s.get(URL, params = params ,headers = headers)
         # print("="*30)
         # print(params)
@@ -241,6 +184,7 @@ class hrefset(): #sub href link dataset object
         if self.findargs(args) :
             pass
         else : 
+            # print ("argname : " + args.name)
             self.arglist.append(args)
 
     def findargs(self,args): #find same args already in this lists
@@ -251,26 +195,14 @@ class hrefset(): #sub href link dataset object
                     
 
 class argset():
-    def __init__ (self,atype,oval,name="none",url="",vul="safe"):
+    def __init__ (self,atype,oval,name="none",url=""):
         self.atype = atype
         self.oval = oval
         self.name = name        
         self.url = url
-        self.vul = vul
 
-    def getdata(self) :
-        data = OrderedDict()
-        data['name'] = self.name
-        data['atype'] = self.atype
-        data['oval'] = self.oval
-        data['vul'] = self.vul
-        res = json.dumps(data,ensure_ascii=False,indent="\t")
-        return res
-
-    def showdata(self) :        
+    def showdata(self) :
         print ("args name : "+ self.name + " | args type : " + self.atype )
-
-        
 
         
 # ---------------------------------------------------------------------
@@ -318,9 +250,9 @@ def parsescript(data,funcname):
     # http://pingu6615.phps.kr/ksj/legacy_admin.php
     # url => http://pingu6615.phps.kr/ksj/
     tmp = gbaseurl.rfind('/')
-    # title_print("main", tmp)
+    title_print("main", tmp)
     url = gbaseurl[:tmp+1]
-    # title_print("url", url)
+    title_print("url", url)
 
     #script = data = soup object
     scripts = data
@@ -557,8 +489,6 @@ def getlinks(data,url): #data : soup object
                         if isin == 0:
                             if "http" in tmp : #filter outer sites links
                                 pass 
-                            elif "mailto" in tmp:
-                                pass
                             else :
                                 tmpset = hrefset(tmp,url)
                                 tmpset.addargs(tmpArg)
@@ -575,8 +505,6 @@ def getlinks(data,url): #data : soup object
     for res in linklist :
         if "http" in res : #filter outer sites links
             # print(res)
-            pass
-        elif "mailto" in tmp:
             pass
         else :
             lists.append(hrefset(res,url))

@@ -53,7 +53,8 @@
         }}*/
     }
     else{
-        exec("tool.exe",$str);
+        $url = $_POST["url"];
+        exec("tool.exe -u $url",$str);
         echo $str[0];
     }
     

@@ -318,7 +318,7 @@
                     countCheck=0;
                 }
             }
-           /* var max =[0,0,0,0,0];
+            /*var max =[0,0,0,0,0];
             var maxQuery = [];
             var maxCount = [];
             for(var i=0; i<queryData.length; i++){
@@ -334,11 +334,12 @@
             for(var i=0; i<queryData.length; i++){
                 for(var j=0; j<maxQuery.length; j++){
                     if(maxQuery[j]==queryData[i].query){
-                        maxCount.qush(queryData[i].count);
+                        maxCount.push(queryData[i].count);
                         break;
                     }
                 }
-            }*/
+            }
+            console.log(maxQuery);*/
 
             console.log(queryData);
             var classData = ['bg-danger','bg-warning','','bg-info','bg-success'];
@@ -348,6 +349,7 @@
                 $("#ratio").append("<div class='progress mb-4'> <div class='progress-bar bg-danger' role='progressbar' style='width:");
                 $("#ratio").append(queryData[i].count+"% aria-valuenow='20' aria-valuemin='0' aria-valuemax='100'></div></div>");*/
                 $("#ratio").append("<h4 class='small font-weight-bold'>"+queryData[i].query+"<span class='float-right'>"+Math.round(queryData[i].count/result.aparlen*100,0)+"% </span></h4><div class='progress mb-4'> <div class='progress-bar "+classData[i]+"' role='progressbar' style='width:"+Math.round(queryData[i].count/result.aparlen*100,0)+"%' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100'></div></div>");
+                //$("#ratio").append("<h4 class='small font-weight-bold'>"+maxQuery[i]+"<span class='float-right'>"+Math.round(maxCount[i]/result.aparlen*100,0)+"% </span></h4><div class='progress mb-4'> <div class='progress-bar "+classData[i]+"' role='progressbar' style='width:"+Math.round(maxCount[i]/result.aparlen*100,0)+"%' aria-valuenow='20' aria-valuemin='0' aria-valuemax='100'></div></div>");
             }
 
             $('#progressBar').css('display','none');

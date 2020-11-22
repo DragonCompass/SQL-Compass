@@ -1,8 +1,9 @@
 <?php
     #exec("cd /var/www/html/KSJ_SQLI_Project/python/dist && ./tool", $str);
+    $path = "tool.exe";
     if(isset($_POST["mode"])){
         $mode = $_POST["mode"];
-        exec("tool.exe ".$mode,$str);
+        exec("$path ".$mode,$str);
         if($mode==" -m result"){
             echo implode($str);
         }else{
@@ -54,7 +55,7 @@
     }
     else{
         $url = $_POST["url"];
-        exec("tool.exe -u $url",$str);
+        exec("$path -u $url",$str);
         echo $str[0];
     }
     

@@ -334,7 +334,7 @@
             <div id="content">
                 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand navbar-light bg-customdk topbar mb-4 static-top shadow">
                     
                        <!-- <div class="col-xl-8 col-md-6 mb-4">
                             <div class="progress" style="height:20px">
@@ -350,7 +350,7 @@
                                 <input type="text" class="form-control bg-light border-0 small" placeholder="검사한 페이지 주소 >> <?=$url?>"
                                     aria-label="Search" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button">
+                                    <button class="btn btn-dkred" type="button">
                                         <i class="fas fa-search fa-sm"></i>
                                     </button>
                                 </div>
@@ -613,7 +613,7 @@
                             <!-- Project Card Example -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
+                                    <h6 class="m-0 font-weight-bold text-light">Projects</h6>
                                 </div>
                                 <div class="card-body">
                                     <h4 class="small font-weight-bold">Server Migration <span

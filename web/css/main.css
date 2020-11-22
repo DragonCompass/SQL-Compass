@@ -819,7 +819,7 @@ legend {
   -ms-flex-align: center;
       align-items: center;
   font-family: 'Poppins', sans-serif;
-  background-color: #a598ee;
+  background-color: #191919;
   background-size: cover;
   background-position: center center;
   padding: 15px;
@@ -971,7 +971,7 @@ legend {
   color: #fff;
   border: 0;
   cursor: pointer;
-  background: #63c76a;
+  background: #992222;
   transition: all .2s ease-out, color .2s ease-out;
 }
 
@@ -980,7 +980,7 @@ legend {
 }
 
 .s003 form .inner-form .input-field.third-wrap .btn-search:hover {
-  background: #50c058;
+  background: #992222;
 }
 
 .s003 form .inner-form .input-field.third-wrap .btn-search:focus {
@@ -1028,5 +1028,19 @@ legend {
   .s003 form .inner-form .input-field.third-wrap {
     margin-bottom: 0;
     width: 100%;
+  
   }
+}
+
+.bg {
+  /* The image used */
+  background-image: url("https://mdbootstrap.com/img/Photos/Horizontal/Nature/full page/img(20).jpg");
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }

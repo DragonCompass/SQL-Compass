@@ -1,7 +1,5 @@
 # SQL Compass 최종 보고서
-
-# **SQL Injection 점검 자동화 도구 개발**
-
+## **SQL Injection 점검 자동화 도구 개발**
 ## SQL_COMPASS
 
 ![img/Untitled.png](img/Untitled.png)
